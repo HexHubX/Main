@@ -1046,7 +1046,8 @@ function Library.new(config)
 			Description = "Tab: "..tostring(#WindowTable.Tabs + 1),
 			Icon = "rbxassetid://7733964640"
 		});
-
+	
+	-- تاب
 		local TabTable = {};
 		local TabButton = Instance.new("Frame")
 		local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
@@ -1149,7 +1150,7 @@ function Library.new(config)
 
 		Frame.Parent = TabButton
 		Frame.AnchorPoint = Vector2.new(1, 0.5)
-		Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Frame.BackgroundColor3 = Color3.fromRGB(255, 5, 5)
 		Frame.BackgroundTransparency = 1
 		Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 		Frame.BorderSizePixel = 0

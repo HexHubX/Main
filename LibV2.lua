@@ -32,7 +32,7 @@ function Library:Window(title)
     ToggleBtn.Name = "ToggleBtn"
     ToggleBtn.Parent = ScreenGui
     ToggleBtn.BackgroundColor3 = Color_Sec
-    ToggleBtn.Position = UDim2.new(0.1, 0, 0.1, 0)
+    ToggleBtn.Position = UDim2.new(0.100000001, 21, 0.100000001, 64)
     ToggleBtn.Size = UDim2.new(0, 50, 0, 50)
     ToggleBtn.Font = Enum.Font.GothamBold
     ToggleBtn.Text = "UI"
@@ -444,7 +444,94 @@ function Library:Window(title)
             end)
         end
         
-        function Elements:TextBox(text, placeholder, callback)
+    function Elements:Discord(data)
+    local DiscordFrame = Instance.new("TextButton")
+    local DiscordCorner = Instance.new("UICorner")
+    local Icon = Instance.new("ImageLabel")
+    local TextContainer = Instance.new("Frame")
+    local TitleLabel = Instance.new("TextLabel")
+    private = Instance.new("TextLabel")
+    local OpenButton = Instance.new("TextButton")
+    local OpenCorner = Instance.new("UICorner")
+    local OpenStroke = Instance.new("UIStroke")
+
+    DiscordFrame.Parent = Page
+    DiscordFrame.BackgroundColor3 = Color_Sec
+    DiscordFrame.Size = UDim2.new(1, 0, 0, 60)
+    DiscordFrame.AutoButtonColor = false
+    DiscordFrame.Text = ""
+
+    DiscordCorner.CornerRadius = UDim.new(0, 6)
+    DiscordCorner.Parent = DiscordFrame
+
+    Icon.Parent = DiscordFrame
+    Icon.BackgroundTransparency = 1
+    Icon.Position = UDim2.new(0, 12, 0.5, -15)
+    Icon.Size = UDim2.new(0, 30, 0, 30)
+    Icon.Image = data.DiscordIcon or "rbxassetid://10723424838"
+
+    TextContainer.Parent = DiscordFrame
+    TextContainer.BackgroundTransparency = 1
+    TextContainer.Position = UDim2.new(0, 52, 0, 0)
+    TextContainer.Size = UDim2.new(1, -120, 1, 0)
+
+    TitleLabel.Parent = TextContainer
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Position = UDim2.new(0, 0, 0, 8)
+    TitleLabel.Size = UDim2.new(1, 0, 0, 18)
+    TitleLabel.Font = Enum.Font.GothamBold
+    TitleLabel.Text = data.DiscordTitle or "Join our Discord"
+    TitleLabel.TextColor3 = Color_Text
+    TitleLabel.TextSize = 14
+    TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+    private.Parent = TextContainer
+    private.BackgroundTransparency = 1
+    private.Position = UDim2.new(0, 0, 0, 28)
+    private.Size = UDim2.new(1, 0, 0, 18)
+    private.Font = Enum.Font.Gotham
+    private.Text = data.DiscordLink or "discord.gg/..."
+    private.TextColor3 = Color3.fromRGB(150, 150, 150)
+    private.TextSize = 12
+    private.TextXAlignment = Enum.TextXAlignment.Left
+
+    OpenButton.Parent = DiscordFrame
+    OpenButton.BackgroundColor3 = Color_Main
+    OpenButton.Position = UDim2.new(1, -50, 0.5, -12)
+    OpenButton.Size = UDim2.new(0, 40, 0, 24)
+    OpenButton.Text = "Join"
+    OpenButton.TextColor3 = Color_Text
+    OpenButton.TextSize = 12
+    OpenButton.Font = Enum.Font.GothamBold
+    OpenButton.AutoButtonColor = false
+
+    OpenCorner.CornerRadius = UDim.new(0, 4)
+    OpenCorner.Parent = OpenButton
+
+    OpenStroke.Parent = OpenButton
+    OpenStroke.Thickness = 1
+    OpenStroke.Color = Color3.fromRGB(50, 50, 50)
+
+    OpenButton.MouseEnter:Connect(function()
+        TweenService:Create(OpenButton, TweenInfo.new(0.2), {BackgroundColor3 = Color_Accent}):Play()
+    end)
+    OpenButton.MouseLeave:Connect(function()
+        TweenService:Create(OpenButton, TweenInfo.new(0.2), {BackgroundColor3 = Color_Main}):Play()
+    end)
+
+    OpenButton.MouseButton1Click:Connect(function()
+        if data.DiscordLink and data.DiscordLink ~= "" then
+            setclipboard(data.DiscordLink)
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "Discord Link",
+                Text = "Link copied to clipboard!",
+                Duration = 2
+            })
+        end
+    end)
+end
+
+    function Elements:TextBox(text, placeholder, callback)
     local TextBoxFrame = Instance.new("TextButton")
     local BoxCorner = Instance.new("UICorner")
     local BoxTitle = Instance.new("TextLabel")

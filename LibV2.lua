@@ -780,7 +780,56 @@ end
                 end
             end)
         end
+        local PingLabel = nil
 
+function AddPingLabel(parent, text)
+    local frame = Instance.new("Frame")
+    frame.Name = "PingFrame"
+    frame.BackgroundColor3 = Configs_HUB.Cor_Options
+    frame.BackgroundTransparency = 0
+    frame.BorderSizePixel = 0
+    frame.Size = UDim2.new(1, 0, 0, 30)
+    frame.Parent = parent
+    
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = Configs_HUB.Corner_Radius
+    corner.Parent = frame
+    
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Configs_HUB.Cor_Stroke
+    stroke.Thickness = 2
+    stroke.Parent = frame
+    
+    local label = Instance.new("TextLabel")
+    label.Name = "PingLabel"
+    label.Text = text or "Ping: 0 ms"
+    label.TextColor3 = Configs_HUB.Cor_Text
+    label.TextSize = 12
+    label.Font = Configs_HUB.Text_Font
+    label.TextXAlignment = Enum.TextXAlignment.Left
+    label.TextYAlignment = Enum.TextYAlignment.Center
+    label.BackgroundTransparency = 1
+    label.Position = UDim2.new(0, 10, 0, 0)
+    label.Size = UDim2.new(1, -20, 1, 0)
+    label.Parent = frame
+    
+    PingLabel = label
+    
+    task.spawn(function()
+        local Stats = game:GetService("Stats")
+        while true do
+            local ping = Stats.Network:GetAveragePing() or 0
+            label.Text = "Ping: " .. math.floor(ping) .. " ms"
+            task.wait(0.5)
+        end
+    end)
+    
+    return label
+end
+
+function SetLabel(label, NewValue)
+    label.Text = NewValue
+end
         function Elements:Label(text)
             local Lab = Instance.new("TextLabel")
             local LabCorner = Instance.new("UICorner")

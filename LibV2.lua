@@ -342,7 +342,7 @@ function Library:Window(title)
 
     BtnText.Parent = Button
     BtnText.BackgroundTransparency = 1
-    BtnText.Position = UDim2.new(0, -26, 0.5, -9)
+    BtnText.Position = UDim2.new(0, 10, 0.5, -9)
     BtnText.Size = UDim2.new(1, 0, 0, 18)
     BtnText.Font = Enum.Font.Gotham
     BtnText.Text = text
@@ -352,7 +352,7 @@ function Library:Window(title)
 
     BtnIcon.Parent = Button
     BtnIcon.BackgroundTransparency = 1
-    BtnIcon.Position = UDim2.new(0, 270, 0.5, -9)
+    BtnIcon.Position = UDim2.new(0, 308, 0.5, -9)
     BtnIcon.Size = UDim2.new(0, 18, 0, 18)
     BtnIcon.Image = "rbxassetid://7734010488"
     BtnIcon.ImageColor3 = Color_Text

@@ -816,7 +816,7 @@ end
             LabCorner.CornerRadius = UDim.new(0, 6)
             LabCorner.Parent = Lab
             
-            LabStroke.Color = Color_Accent
+            LabStroke.Color = Color3.fromRGB(152, 17, 242)
             LabStroke.Thickness = 1
             LabStroke.Parent = Lab
         end

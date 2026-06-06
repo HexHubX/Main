@@ -327,29 +327,32 @@ function Library:Window(title)
 
         local Elements = {}
 
-        function Elements:Button(text, callback)
+    function Elements:Button(text, callback)
     local Button = Instance.new("TextButton")
     local BtnCorner = Instance.new("UICorner")
     local BtnStroke = Instance.new("UIStroke")
     local BtnIcon = Instance.new("ImageLabel")
+    local BtnText = Instance.new("TextLabel")
     
     Button.Parent = Page
     Button.BackgroundColor3 = Color_Sec
     Button.Size = UDim2.new(1, 0, 0, 32)
-    Button.Font = Enum.Font.Gotham
-    Button.Text = text
-    Button.TextColor3 = Color_Text
-    Button.TextSize = 13
-    Button.TextXAlignment = Enum.TextXAlignment.Left
+    Button.Text = ""
     Button.AutoButtonColor = false
 
-    local padding = Instance.new("UIPadding")
-    padding.PaddingLeft = UDim.new(0, 34)
-    padding.Parent = Button
+    BtnText.Parent = Button
+    BtnText.BackgroundTransparency = 1
+    BtnText.Position = UDim2.new(0, -26, 0.5, -9)
+    BtnText.Size = UDim2.new(1, 0, 0, 18)
+    BtnText.Font = Enum.Font.Gotham
+    BtnText.Text = text
+    BtnText.TextColor3 = Color_Text
+    BtnText.TextSize = 13
+    BtnText.TextXAlignment = Enum.TextXAlignment.Left
 
     BtnIcon.Parent = Button
     BtnIcon.BackgroundTransparency = 1
-    BtnIcon.Position = UDim2.new(0, -26, 0.5, -9)
+    BtnIcon.Position = UDim2.new(0, 270, 0.5, -9)
     BtnIcon.Size = UDim2.new(0, 18, 0, 18)
     BtnIcon.Image = "rbxassetid://7734010488"
     BtnIcon.ImageColor3 = Color_Text
@@ -366,23 +369,28 @@ function Library:Window(title)
         TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(35,35,35)}):Play()
         TweenService:Create(BtnStroke, TweenInfo.new(0.2), {Color = Color_Accent}):Play()
         TweenService:Create(BtnIcon, TweenInfo.new(0.2), {ImageColor3 = Color_Accent}):Play()
+        TweenService:Create(BtnText, TweenInfo.new(0.2), {TextColor3 = Color_Accent}):Play()
     end)
 
     Button.MouseLeave:Connect(function()
         TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color_Sec}):Play()
         TweenService:Create(BtnStroke, TweenInfo.new(0.2), {Color = Color_Sec}):Play()
         TweenService:Create(BtnIcon, TweenInfo.new(0.2), {ImageColor3 = Color_Text}):Play()
+        TweenService:Create(BtnText, TweenInfo.new(0.2), {TextColor3 = Color_Text}):Play()
     end)
 
     Button.MouseButton1Click:Connect(function()
-        TweenService:Create(Button, TweenInfo.new(0.1), {BackgroundColor3 = Color_Accent, TextColor3 = Color_Main}):Play()
+        TweenService:Create(Button, TweenInfo.new(0.1), {BackgroundColor3 = Color_Accent}):Play()
+        TweenService:Create(BtnText, TweenInfo.new(0.1), {TextColor3 = Color_Main}):Play()
         TweenService:Create(BtnIcon, TweenInfo.new(0.1), {ImageColor3 = Color_Main}):Play()
         task.wait(0.1)
-        TweenService:Create(Button, TweenInfo.new(0.3), {BackgroundColor3 = Color_Sec, TextColor3 = Color_Text}):Play()
+        TweenService:Create(Button, TweenInfo.new(0.3), {BackgroundColor3 = Color_Sec}):Play()
+        TweenService:Create(BtnText, TweenInfo.new(0.3), {TextColor3 = Color_Text}):Play()
         TweenService:Create(BtnIcon, TweenInfo.new(0.3), {ImageColor3 = Color_Text}):Play()
         pcall(callback)
     end)
 end
+
 
 
         function Elements:Toggle(text, default, callback)

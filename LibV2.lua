@@ -801,25 +801,28 @@ end
 function Elements:setLabel(labelObject, newText)
     labelObject.Text = newText
 end
-        function Elements:Label(text)
-            local Lab = Instance.new("TextLabel")
-            local LabCorner = Instance.new("UICorner")
-            
-            Lab.Parent = Page
-            Lab.BackgroundColor3 = Color_Sec
-            Lab.Size = UDim2.new(1, 0, 0, 28)
-            Lab.Font = Enum.Font.Gotham
-            Lab.Text = text
-            Lab.TextColor3 = Color_Text
-            Lab.TextSize = 13
+    function Elements:Label(text)
+    local Lab = Instance.new("TextLabel")
+    local LabCorner = Instance.new("UICorner")
+    local LabStroke = Instance.new("UIStroke")
+    
+    Lab.Parent = Page
+    Lab.BackgroundColor3 = Color_Sec
+    Lab.Size = UDim2.new(1, 0, 0, 28)
+    Lab.Font = Enum.Font.Gotham
+    Lab.Text = text
+    Lab.TextColor3 = Color_Text
+    Lab.TextSize = 13
 
-            LabCorner.CornerRadius = UDim.new(0, 6)
-            LabCorner.Parent = Lab
-            
-            LabStroke.Color = Color3.fromRGB(152, 17, 242)
-            LabStroke.Thickness = 1
-            LabStroke.Parent = Lab
-        end
+    LabCorner.CornerRadius = UDim.new(0, 6)
+    LabCorner.Parent = Lab
+
+    LabStroke.Parent = Lab
+    LabStroke.Thickness = 1
+    LabStroke.Color = Color3.fromRGB(152, 17, 242)
+    LabStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+end
+
 
         return Elements
     end

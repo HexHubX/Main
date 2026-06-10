@@ -806,7 +806,7 @@ end
                 end
             end)
         end
-        function Elements:Stats(text)
+    function Elements:Stats(text)
     local Lab = Instance.new("TextLabel")
     local LabCorner = Instance.new("UICorner")
     
@@ -822,6 +822,79 @@ end
     LabCorner.Parent = Lab
     
     return Lab
+end
+
+function Main:AddNotice(data)
+    local playerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    local noticeContainer = playerGui:FindFirstChild("NoticeContainer")
+    
+    if not noticeContainer then
+        noticeContainer = Instance.new("Frame")
+        noticeContainer.Name = "NoticeContainer"
+        noticeContainer.Size = UDim2.new(0, 300, 0, 0)
+        noticeContainer.Position = UDim2.new(1, -320, 0, 10)
+        noticeContainer.BackgroundTransparency = 1
+        noticeContainer.Parent = playerGui
+    end
+    
+    local notice = Instance.new("Frame")
+    notice.Size = UDim2.new(0, 280, 0, 60)
+    notice.Position = UDim2.new(0, 10, 0, noticeContainer.AbsoluteSize.Y)
+    notice.BackgroundColor3 = data.Color or Color3.fromRGB(25, 25, 30)
+    notice.BackgroundTransparency = 0.1
+    notice.BorderSizePixel = 0
+    notice.Parent = noticeContainer
+    
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 8)
+    corner.Parent = notice
+    
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Color3.fromRGB(152, 17, 242)
+    stroke.Thickness = 1
+    stroke.Parent = notice
+    
+    local icon = Instance.new("ImageLabel")
+    icon.Size = UDim2.new(0, 30, 0, 30)
+    icon.Position = UDim2.new(0, 10, 0.5, -15)
+    icon.BackgroundTransparency = 1
+    icon.Image = data.Icon or "rbxassetid://"
+    icon.Parent = notice
+    
+    local title = Instance.new("TextLabel")
+    title.Size = UDim2.new(1, -100, 0, 20)
+    title.Position = UDim2.new(0, 50, 0, 8)
+    title.BackgroundTransparency = 1
+    title.Font = Enum.Font.GothamBold
+    title.Text = data.Title or "Notification"
+    title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    title.TextSize = 14
+    title.TextXAlignment = Enum.TextXAlignment.Left
+    title.Parent = notice
+    
+    local desc = Instance.new("TextLabel")
+    desc.Size = UDim2.new(1, -100, 0, 20)
+    desc.Position = UDim2.new(0, 50, 0, 28)
+    desc.BackgroundTransparency = 1
+    desc.Font = Enum.Font.Gotham
+    desc.Text = data.Description or ""
+    desc.TextColor3 = Color3.fromRGB(180, 180, 180)
+    desc.TextSize = 12
+    desc.TextXAlignment = Enum.TextXAlignment.Left
+    desc.Parent = notice
+    
+    local duration = data.Duration or 3
+    
+    task.delay(duration, function()
+        local tween = game:GetService("TweenService"):Create(notice, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+            Position = UDim2.new(0, 10, 0, noticeContainer.AbsoluteSize.Y)
+        })
+        tween:Play()
+        tween.Completed:Wait()
+        notice:Destroy()
+    end)
+    
+    return notice
 end
 
 function Elements:setLabel(labelObject, newText)

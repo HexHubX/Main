@@ -824,7 +824,7 @@ end
     return Lab
 end
 
-function Main:AddNotice(data)
+function AddNotice(data)
     local playerGui = game.Players.LocalPlayer:WaitForChild("PlayerGui")
     local noticeContainer = playerGui:FindFirstChild("NoticeContainer")
     
@@ -840,7 +840,7 @@ function Main:AddNotice(data)
     local notice = Instance.new("Frame")
     notice.Size = UDim2.new(0, 280, 0, 60)
     notice.Position = UDim2.new(0, 10, 0, noticeContainer.AbsoluteSize.Y)
-    notice.BackgroundColor3 = data.Color or Color3.fromRGB(25, 25, 30)
+    notice.BackgroundColor3 = Color3.fromRGB(25, 25, 30)
     notice.BackgroundTransparency = 0.1
     notice.BorderSizePixel = 0
     notice.Parent = noticeContainer
@@ -858,7 +858,7 @@ function Main:AddNotice(data)
     icon.Size = UDim2.new(0, 30, 0, 30)
     icon.Position = UDim2.new(0, 10, 0.5, -15)
     icon.BackgroundTransparency = 1
-    icon.Image = data.Icon or "rbxassetid://"
+    icon.Image = data.Icon or "rbxassetid://7733993369"
     icon.Parent = notice
     
     local title = Instance.new("TextLabel")

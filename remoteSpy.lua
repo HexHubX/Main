@@ -2236,6 +2236,7 @@ newButton(
     function()
         TextLabel.Text = "Clearing..."
         clear(logs)
+        clear(remoteGrouped)
         for i,v in next, LogList:GetChildren() do
             if not v:IsA("UIListLayout") then
                 v:Destroy()

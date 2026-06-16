@@ -806,6 +806,140 @@ end
                 end
             end)
         end
+        
+        local CoreGui = game:GetService("CoreGui")
+local TweenService = game:GetService("TweenService")
+
+local NotifyScreen = Instance.new("ScreenGui")
+NotifyScreen.Name = "NotificationsLib"
+NotifyScreen.Parent = CoreGui
+
+local Menu_Notifi = Instance.new("Frame")
+Menu_Notifi.Size = UDim2.new(0, 300, 1, 0)
+Menu_Notifi.Position = UDim2.new(1, 0, 0, 0)
+Menu_Notifi.AnchorPoint = Vector2.new(1, 0)
+Menu_Notifi.BackgroundTransparency = 1
+Menu_Notifi.Parent = NotifyScreen
+
+local ListLayout = Instance.new("UIListLayout")
+ListLayout.Padding = UDim.new(0, 15)
+ListLayout.VerticalAlignment = "Bottom"
+ListLayout.Parent = Menu_Notifi
+
+local UIPadding = Instance.new("UIPadding")
+UIPadding.PaddingLeft = UDim.new(0, 25)
+UIPadding.PaddingTop = UDim.new(0, 25)
+UIPadding.PaddingBottom = UDim.new(0, 50)
+UIPadding.Parent = Menu_Notifi
+
+function MakeNotifi(Configs)
+    local Title = Configs.Title or "HexHubX"
+    local text = Configs.Text or "Notificação"
+    local timewait = Configs.Time or 5
+
+    local Frame1 = Instance.new("Frame")
+    Frame1.Size = UDim2.new(2, 0, 0, 0)
+    Frame1.BackgroundTransparency = 1
+    Frame1.AutomaticSize = "Y"
+    Frame1.Name = "Title"
+    Frame1.Parent = Menu_Notifi
+
+    local Frame2 = Instance.new("Frame")
+    Frame2.Size = UDim2.new(0, Menu_Notifi.Size.X.Offset - 50, 0, 0)
+    Frame2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Frame2.Position = UDim2.new(0, Menu_Notifi.Size.X.Offset, 0, 0)
+    Frame2.AutomaticSize = "Y"
+    Frame2.Parent = Frame1
+
+    local Corner = Instance.new("UICorner")
+    Corner.CornerRadius = UDim.new(0, 15)
+    Corner.Parent = Frame2
+
+    local TextLabel = Instance.new("TextLabel")
+    TextLabel.Size = UDim2.new(1, 0, 0, 25)
+    TextLabel.Font = Enum.Font.FredokaOne
+    TextLabel.BackgroundTransparency = 1
+    TextLabel.Text = Title
+    TextLabel.TextSize = 20
+    TextLabel.Position = UDim2.new(0, 20, 0, 5)
+    TextLabel.TextXAlignment = "Left"
+    TextLabel.TextColor3 = Color3.fromRGB(240, 240, 240)
+    TextLabel.Parent = Frame2
+
+    local TextButton = Instance.new("TextButton")
+    TextButton.Text = "X"
+    TextButton.Font = Enum.Font.FredokaOne
+    TextButton.TextSize = 20
+    TextButton.BackgroundTransparency = 1
+    TextButton.TextColor3 = Color3.fromRGB(200, 200, 200)
+    TextButton.Position = UDim2.new(1, -5, 0, 5)
+    TextButton.AnchorPoint = Vector2.new(1, 0)
+    TextButton.Size = UDim2.new(0, 25, 0, 25)
+    TextButton.Parent = Frame2
+
+    local TextLabel2 = Instance.new("TextLabel")
+    TextLabel2.Size = UDim2.new(1, -30, 0, 0)
+    TextLabel2.Position = UDim2.new(0, 20, 0, TextButton.Size.Y.Offset + 10)
+    TextLabel2.TextSize = 15
+    TextLabel2.TextColor3 = Color3.fromRGB(240, 240, 240)
+    TextLabel2.TextXAlignment = "Left"
+    TextLabel2.TextYAlignment = "Top"
+    TextLabel2.AutomaticSize = "Y"
+    TextLabel2.Text = text
+    TextLabel2.Font = Enum.Font.FredokaOne
+    TextLabel2.BackgroundTransparency = 1
+    TextLabel2.TextWrapped = true
+    TextLabel2.Parent = Frame2
+
+    local Cor_Stroke = Instance.new("Frame")
+    Cor_Stroke.Size = UDim2.new(1, 0, 0, 2)
+    Cor_Stroke.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    Cor_Stroke.Position = UDim2.new(0, 2, 0, 30)
+    Cor_Stroke.BorderSizePixel = 0
+    Cor_Stroke.Parent = Frame2
+
+    local Corner2 = Instance.new("UICorner")
+    Corner2.CornerRadius = UDim.new(0, 15)
+    Corner2.Parent = Cor_Stroke
+
+    local Spacer = Instance.new("Frame")
+    Spacer.Size = UDim2.new(0, 0, 0, 5)
+    Spacer.Position = UDim2.new(0, 0, 1, 5)
+    Spacer.BackgroundTransparency = 1
+    Spacer.Parent = Frame2
+
+    task.spawn(function()
+        local tween = TweenService:Create(Cor_Stroke, TweenInfo.new(timewait, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 0, 0, 2)})
+        tween:Play()
+    end)
+
+    TextButton.MouseButton1Click:Connect(function()
+        local tween1 = TweenService:Create(Frame2, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {Position = UDim2.new(0, -20, 0, 0)})
+        tween1:Play()
+        tween1.Completed:Wait()
+        local tween2 = TweenService:Create(Frame2, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Position = UDim2.new(0, Menu_Notifi.Size.X.Offset, 0, 0)})
+        tween2:Play()
+        Frame1:Destroy()
+    end)
+
+    task.spawn(function()
+        local tween1 = TweenService:Create(Frame2, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Position = UDim2.new(0, -20, 0, 0)})
+        tween1:Play()
+        task.wait(0.1)
+        local tween2 = TweenService:Create(Frame2, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {Position = UDim2.new()})
+        tween2:Play()
+        task.wait(timewait)
+        if Frame2 then
+            local tween3 = TweenService:Create(Frame2, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {Position = UDim2.new(0, -20, 0, 0)})
+            tween3:Play()
+            tween3.Completed:Wait()
+            local tween4 = TweenService:Create(Frame2, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Position = UDim2.new(0, Menu_Notifi.Size.X.Offset, 0, 0)})
+            tween4:Play()
+            Frame1:Destroy()
+        end
+    end)
+end
+
     function Elements:Stats(text)
     local Lab = Instance.new("TextLabel")
     local LabCorner = Instance.new("UICorner")
@@ -823,7 +957,6 @@ end
     
     return Lab
 end
-
 
 function Elements:setLabel(labelObject, newText)
     labelObject.Text = newText

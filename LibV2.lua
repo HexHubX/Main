@@ -980,12 +980,11 @@ end
     LabStroke.Color = Color3.fromRGB(152, 17, 242)
     LabStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 end
-function Elements:Paragraph(data)
+function Elements:ColorPicker(data)
     local frame = Instance.new("Frame")
     frame.Parent = Page
+    frame.Size = UDim2.new(1, 0, 0, 25)
     frame.BackgroundColor3 = Color_Sec
-    frame.Size = UDim2.new(1, 0, 0, 0)
-    frame.AutomaticSize = Enum.AutomaticSize.Y
     frame.BorderSizePixel = 0
     
     local frameCorner = Instance.new("UICorner")
@@ -997,225 +996,111 @@ function Elements:Paragraph(data)
     frameStroke.Thickness = 1
     frameStroke.Parent = frame
     
-    local uiList = Instance.new("UIListLayout")
-    uiList.Padding = UDim.new(0, 4)
-    uiList.Parent = frame
-    
-    local uiPadding = Instance.new("UIPadding")
-    uiPadding.PaddingLeft = UDim.new(0, 12)
-    uiPadding.PaddingRight = UDim.new(0, 12)
-    uiPadding.PaddingTop = UDim.new(0, 6)
-    uiPadding.PaddingBottom = UDim.new(0, 6)
-    uiPadding.Parent = frame
+    local clickBtn = Instance.new("TextButton")
+    clickBtn.Parent = frame
+    clickBtn.Size = UDim2.new(1, 0, 0, 25)
+    clickBtn.BackgroundTransparency = 1
+    clickBtn.Text = ""
+    clickBtn.AutoButtonColor = false
     
     local titleLabel = Instance.new("TextLabel")
-    titleLabel.Parent = frame
+    titleLabel.Parent = clickBtn
+    titleLabel.Size = UDim2.new(1, -10, 0, 25)
+    titleLabel.Position = UDim2.new(0, 35, 0, 0)
     titleLabel.BackgroundTransparency = 1
-    titleLabel.Size = UDim2.new(1, 0, 0, 20)
-    titleLabel.Font = Enum.Font.GothamBold
-    titleLabel.Text = data.Title or "Title"
-    titleLabel.TextColor3 = Color_Text
-    titleLabel.TextSize = 14
-    titleLabel.TextXAlignment = Enum.TextXAlignment.Left
-    
-    local descLabel = Instance.new("TextLabel")
-    descLabel.Parent = frame
-    descLabel.BackgroundTransparency = 1
-    descLabel.Size = UDim2.new(1, 0, 0, 0)
-    descLabel.AutomaticSize = Enum.AutomaticSize.Y
-    descLabel.Font = Enum.Font.Gotham
-    descLabel.Text = data.Text or "Description"
-    descLabel.TextColor3 = Color3.fromRGB(180, 180, 190)
-    descLabel.TextSize = 12
-    descLabel.TextXAlignment = Enum.TextXAlignment.Left
-    descLabel.TextWrapped = true
-    descLabel.RichText = true
-end
-function Elements:ColorPicker(data)
-    local frame = Instance.new("Frame")
-    frame.Parent = Page
-    frame.BackgroundColor3 = Color_Sec
-    frame.Size = UDim2.new(1, 0, 0, 60)
-    frame.BorderSizePixel = 0
-    
-    local frameCorner = Instance.new("UICorner")
-    frameCorner.CornerRadius = UDim.new(0, 6)
-    frameCorner.Parent = frame
-    
-    local titleLabel = Instance.new("TextLabel")
-    titleLabel.Parent = frame
-    titleLabel.BackgroundTransparency = 1
-    titleLabel.Position = UDim2.new(0, 10, 0, 0)
-    titleLabel.Size = UDim2.new(1, -120, 0, 25)
     titleLabel.Font = Enum.Font.Gotham
     titleLabel.Text = data.Title or "Color Picker"
     titleLabel.TextColor3 = Color_Text
     titleLabel.TextSize = 13
     titleLabel.TextXAlignment = Enum.TextXAlignment.Left
     
-    local colorButton = Instance.new("TextButton")
-    colorButton.Parent = frame
-    colorButton.Size = UDim2.new(0, 30, 0, 30)
-    colorButton.Position = UDim2.new(1, -40, 0.5, -15)
-    colorButton.BackgroundColor3 = data.Default or Color3.fromRGB(255, 255, 255)
-    colorButton.BorderSizePixel = 0
-    colorButton.Text = ""
+    local colorPreview = Instance.new("Frame")
+    colorPreview.Parent = clickBtn
+    colorPreview.Size = UDim2.new(0, 20, 0, 20)
+    colorPreview.Position = UDim2.new(0, 5, 0, 2.5)
+    colorPreview.BackgroundColor3 = data.Default or Color_Accent
+    colorPreview.BorderSizePixel = 0
     
-    local btnCorner = Instance.new("UICorner")
-    btnCorner.CornerRadius = UDim.new(0, 6)
-    btnCorner.Parent = colorButton
+    local previewCorner = Instance.new("UICorner")
+    previewCorner.CornerRadius = UDim.new(0, 4)
+    previewCorner.Parent = colorPreview
     
-    local btnStroke = Instance.new("UIStroke")
-    btnStroke.Color = Color3.fromRGB(50, 50, 50)
-    btnStroke.Thickness = 1
-    btnStroke.Parent = colorButton
+    local previewStroke = Instance.new("UIStroke")
+    previewStroke.Color = Color3.fromRGB(50, 50, 50)
+    previewStroke.Thickness = 1
+    previewStroke.Parent = colorPreview
     
-    local selectedColor = data.Default or Color3.fromRGB(255, 255, 255)
-    local isRainbow = false
-    local rainbowConnection = nil
+    local expandFrame = Instance.new("Frame")
+    expandFrame.Parent = clickBtn
+    expandFrame.Size = UDim2.new(1, 0, 0, 0)
+    expandFrame.Position = UDim2.new(0, 0, 0, 25)
+    expandFrame.BackgroundTransparency = 1
+    expandFrame.Visible = false
     
-    colorButton.MouseButton1Click:Connect(function()
-        if colorPicker and colorPicker.Parent then
-            colorPicker:Destroy()
-            return
-        end
+    local colorGrid = Instance.new("Frame")
+    colorGrid.Parent = expandFrame
+    colorGrid.Size = UDim2.new(1, -20, 0, 100)
+    colorGrid.Position = UDim2.new(0, 10, 0, 10)
+    colorGrid.BackgroundTransparency = 1
+    
+    local gridLayout = Instance.new("UIGridLayout")
+    gridLayout.Parent = colorGrid
+    gridLayout.CellSize = UDim2.new(0, 35, 0, 35)
+    gridLayout.CellPadding = UDim2.new(0, 5, 0, 5)
+    
+    local colors = {
+        Color3.fromRGB(255, 0, 0), Color3.fromRGB(255, 128, 0),
+        Color3.fromRGB(255, 255, 0), Color3.fromRGB(0, 255, 0),
+        Color3.fromRGB(0, 255, 255), Color3.fromRGB(0, 128, 255),
+        Color3.fromRGB(128, 0, 255), Color3.fromRGB(255, 0, 255),
+        Color3.fromRGB(255, 128, 128), Color3.fromRGB(255, 200, 128),
+        Color3.fromRGB(128, 255, 128), Color3.fromRGB(128, 200, 255),
+        Color3.fromRGB(200, 128, 255), Color3.fromRGB(255, 128, 200),
+        Color3.fromRGB(255, 255, 255), Color3.fromRGB(128, 128, 128),
+        Color3.fromRGB(255, 200, 200), Color3.fromRGB(200, 255, 200),
+        Color3.fromRGB(200, 200, 255), Color3.fromRGB(255, 200, 255),
+        Color3.fromRGB(200, 255, 255), Color3.fromRGB(255, 255, 200),
+        Color3.fromRGB(50, 50, 50), Color3.fromRGB(0, 0, 0)
+    }
+    
+    for _, color in pairs(colors) do
+        local btn = Instance.new("TextButton")
+        btn.Parent = colorGrid
+        btn.Size = UDim2.new(0, 35, 0, 35)
+        btn.BackgroundColor3 = color
+        btn.BorderSizePixel = 0
+        btn.Text = ""
         
-        local colorPicker = Instance.new("Frame")
-        colorPicker.Parent = frame
-        colorPicker.Size = UDim2.new(1, 0, 0, 230)
-        colorPicker.Position = UDim2.new(0, 0, 0, 35)
-        colorPicker.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
-        colorPicker.BorderSizePixel = 0
-        colorPicker.ZIndex = 10
+        local btnCorner = Instance.new("UICorner")
+        btnCorner.CornerRadius = UDim.new(0, 4)
+        btnCorner.Parent = btn
         
-        local pickerCorner = Instance.new("UICorner")
-        pickerCorner.CornerRadius = UDim.new(0, 6)
-        pickerCorner.Parent = colorPicker
-        
-        local colorGrid = Instance.new("Frame")
-        colorGrid.Parent = colorPicker
-        colorGrid.Size = UDim2.new(1, -20, 0, 120)
-        colorGrid.Position = UDim2.new(0, 10, 0, 10)
-        colorGrid.BackgroundTransparency = 1
-        
-        local gridLayout = Instance.new("UIGridLayout")
-        gridLayout.Parent = colorGrid
-        gridLayout.CellSize = UDim2.new(0, 35, 0, 35)
-        gridLayout.CellPadding = UDim2.new(0, 5, 0, 5)
-        
-        local colors = {
-            Color3.fromRGB(255, 0, 0), Color3.fromRGB(255, 128, 0),
-            Color3.fromRGB(255, 255, 0), Color3.fromRGB(0, 255, 0),
-            Color3.fromRGB(0, 255, 255), Color3.fromRGB(0, 128, 255),
-            Color3.fromRGB(128, 0, 255), Color3.fromRGB(255, 0, 255),
-            Color3.fromRGB(255, 128, 128), Color3.fromRGB(255, 200, 128),
-            Color3.fromRGB(128, 255, 128), Color3.fromRGB(128, 200, 255),
-            Color3.fromRGB(200, 128, 255), Color3.fromRGB(255, 128, 200),
-            Color3.fromRGB(255, 255, 255), Color3.fromRGB(128, 128, 128),
-            Color3.fromRGB(255, 200, 200), Color3.fromRGB(200, 255, 200),
-            Color3.fromRGB(200, 200, 255), Color3.fromRGB(255, 200, 255),
-            Color3.fromRGB(200, 255, 255), Color3.fromRGB(255, 255, 200),
-            Color3.fromRGB(50, 50, 50), Color3.fromRGB(0, 0, 0)
-        }
-        
-        for _, color in pairs(colors) do
-            local btn = Instance.new("TextButton")
-            btn.Parent = colorGrid
-            btn.Size = UDim2.new(0, 35, 0, 35)
-            btn.BackgroundColor3 = color
-            btn.BorderSizePixel = 0
-            btn.Text = ""
-            
-            local btnCorner = Instance.new("UICorner")
-            btnCorner.CornerRadius = UDim.new(0, 4)
-            btnCorner.Parent = btn
-            
-            btn.MouseButton1Click:Connect(function()
-                if rainbowConnection then
-                    rainbowConnection:Disconnect()
-                    rainbowConnection = nil
-                    isRainbow = false
-                end
-                selectedColor = color
-                colorButton.BackgroundColor3 = color
-                if data.Callback then
-                    data.Callback(color)
-                end
-                colorPicker:Destroy()
-            end)
-        end
-        
-        local rainbowBtn = Instance.new("TextButton")
-        rainbowBtn.Parent = colorPicker
-        rainbowBtn.Size = UDim2.new(0.3, -5, 0, 30)
-        rainbowBtn.Position = UDim2.new(0, 10, 1, -40)
-        rainbowBtn.BackgroundColor3 = Color3.fromRGB(152, 17, 242)
-        rainbowBtn.BackgroundTransparency = 0.3
-        rainbowBtn.Text = "Rainbow"
-        rainbowBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-        rainbowBtn.TextSize = 12
-        rainbowBtn.Font = Enum.Font.GothamBold
-        rainbowBtn.Parent = colorPicker
-        
-        local rainbowCorner = Instance.new("UICorner")
-        rainbowCorner.CornerRadius = UDim.new(0, 4)
-        rainbowCorner.Parent = rainbowBtn
-        
-        local closeBtn = Instance.new("TextButton")
-        closeBtn.Parent = colorPicker
-        closeBtn.Size = UDim2.new(0.3, -5, 0, 30)
-        closeBtn.Position = UDim2.new(0.35, 5, 1, -40)
-        closeBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 60)
-        closeBtn.Text = "Close"
-        closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-        closeBtn.TextSize = 12
-        closeBtn.Font = Enum.Font.Gotham
-        closeBtn.Parent = colorPicker
-        
-        local closeCorner = Instance.new("UICorner")
-        closeCorner.CornerRadius = UDim.new(0, 4)
-        closeCorner.Parent = closeBtn
-        
-        rainbowBtn.MouseButton1Click:Connect(function()
-            if not isRainbow then
-                isRainbow = true
-                rainbowBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
-                if rainbowConnection then
-                    rainbowConnection:Disconnect()
-                end
-                local hue = 0
-                rainbowConnection = game:GetService("RunService").Heartbeat:Connect(function()
-                    if isRainbow then
-                        hue = (hue + 0.005) % 1
-                        local rainbowColor = Color3.fromHSV(hue, 1, 1)
-                        colorButton.BackgroundColor3 = rainbowColor
-                        if data.Callback then
-                            data.Callback(rainbowColor)
-                        end
-                    end
-                end)
-            else
-                isRainbow = false
-                rainbowBtn.BackgroundColor3 = Color3.fromRGB(152, 17, 242)
-                if rainbowConnection then
-                    rainbowConnection:Disconnect()
-                    rainbowConnection = nil
-                end
+        btn.MouseButton1Click:Connect(function()
+            colorPreview.BackgroundColor3 = color
+            if data.Callback then
+                data.Callback(color)
             end
         end)
-        
-        closeBtn.MouseButton1Click:Connect(function()
-            if rainbowConnection then
-                rainbowConnection:Disconnect()
-                rainbowConnection = nil
-                isRainbow = false
-            end
-            colorPicker:Destroy()
-        end)
+    end
+    
+    local isOpen = false
+    
+    clickBtn.MouseButton1Click:Connect(function()
+        isOpen = not isOpen
+        if isOpen then
+            expandFrame.Visible = true
+            frame.Size = UDim2.new(1, 0, 0, 140)
+            expandFrame.Size = UDim2.new(1, 0, 0, 115)
+        else
+            expandFrame.Visible = false
+            frame.Size = UDim2.new(1, 0, 0, 25)
+            expandFrame.Size = UDim2.new(1, 0, 0, 0)
+        end
     end)
     
-    return colorButton
+    return colorPreview
 end
+
         return Elements
     end
 

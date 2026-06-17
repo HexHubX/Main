@@ -937,25 +937,43 @@ function MakeNotifi(Configs)
         end
     end)
 end
-
-    function Elements:Stats(text)
-    local Lab = Instance.new("TextLabel")
-    local LabCorner = Instance.new("UICorner")
+function Elements:AddTextLabel(parent, Configs)
+    local LabelName = Configs[1] or Configs.Name or "Text Label!!"
     
-    Lab.Parent = Page
-    Lab.BackgroundColor3 = Color_Sec
-    Lab.Size = UDim2.new(1, 0, 0, 28)
-    Lab.Font = Enum.Font.Gotham
-    Lab.Text = text
-    Lab.TextColor3 = Color_Text
-    Lab.TextSize = 13
-
-    LabCorner.CornerRadius = UDim.new(0, 6)
-    LabCorner.Parent = Lab
+    local Frame = Instance.new("Frame")
+    Frame.Parent = parent
+    Frame.Size = UDim2.new(1, 0, 0, 25)
+    Frame.BackgroundColor3 = Configs_HUB.Cor_Options
+    Frame.Name = "Frame"
+    Frame.BorderSizePixel = 0
     
-    return Lab
+    local FrameCorner = Instance.new("UICorner")
+    FrameCorner.CornerRadius = Configs_HUB.Corner_Radius
+    FrameCorner.Parent = Frame
+    
+    local FrameStroke = Instance.new("UIStroke")
+    FrameStroke.Color = Configs_HUB.Cor_Stroke
+    FrameStroke.Thickness = 2
+    FrameStroke.Parent = Frame
+    
+    local TextButton = Instance.new("TextButton")
+    TextButton.Parent = Frame
+    TextButton.TextSize = 12
+    TextButton.TextColor3 = Configs_HUB.Cor_Text
+    TextButton.Text = LabelName
+    TextButton.Size = UDim2.new(1, 0, 0, 25)
+    TextButton.Position = UDim2.new(0, 20, 0, 0)
+    TextButton.BackgroundTransparency = 1
+    TextButton.TextXAlignment = Enum.TextXAlignment.Left
+    TextButton.Font = Configs_HUB.Text_Font
+    TextButton.AutoButtonColor = false
+    
+    return TextButton
 end
 
+function SetLabel(label, NewValue)
+    label.Text = NewValue
+end
 function Elements:setLabel(labelObject, newText)
     labelObject.Text = newText
 end

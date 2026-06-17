@@ -937,47 +937,8 @@ function MakeNotifi(Configs)
         end
     end)
 end
-function Elements:AddTextLabel(parent, Configs)
-    local LabelName = Configs[1] or Configs.Name or "Text Label!!"
-    
-    local Frame = Instance.new("Frame")
-    Frame.Parent = parent
-    Frame.Size = UDim2.new(1, 0, 0, 25)
-    Frame.BackgroundColor3 = Configs_HUB.Cor_Options
-    Frame.Name = "Frame"
-    Frame.BorderSizePixel = 0
-    
-    local FrameCorner = Instance.new("UICorner")
-    FrameCorner.CornerRadius = Configs_HUB.Corner_Radius
-    FrameCorner.Parent = Frame
-    
-    local FrameStroke = Instance.new("UIStroke")
-    FrameStroke.Color = Configs_HUB.Cor_Stroke
-    FrameStroke.Thickness = 2
-    FrameStroke.Parent = Frame
-    
-    local TextButton = Instance.new("TextButton")
-    TextButton.Parent = Frame
-    TextButton.TextSize = 12
-    TextButton.TextColor3 = Configs_HUB.Cor_Text
-    TextButton.Text = LabelName
-    TextButton.Size = UDim2.new(1, 0, 0, 25)
-    TextButton.Position = UDim2.new(0, 20, 0, 0)
-    TextButton.BackgroundTransparency = 1
-    TextButton.TextXAlignment = Enum.TextXAlignment.Left
-    TextButton.Font = Configs_HUB.Text_Font
-    TextButton.AutoButtonColor = false
-    
-    return TextButton
-end
 
-function SetLabel(label, NewValue)
-    label.Text = NewValue
-end
-function Elements:setLabel(labelObject, newText)
-    labelObject.Text = newText
-end
-    function Elements:Label(text)
+function Elements:Label(text)
     local Lab = Instance.new("TextLabel")
     local LabCorner = Instance.new("UICorner")
     local LabStroke = Instance.new("UIStroke")
@@ -997,7 +958,15 @@ end
     LabStroke.Thickness = 1
     LabStroke.Color = Color3.fromRGB(152, 17, 242)
     LabStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    return Lab
 end
+
+function Elements:setLabel(labelObject, newText)
+    if labelObject and labelObject:IsA("TextLabel") then
+        labelObject.Text = newText
+    end
+end
+
 function Elements:ColorPicker(data)
     local frame = Instance.new("Frame")
     frame.Parent = Page

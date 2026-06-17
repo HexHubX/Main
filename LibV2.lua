@@ -8,6 +8,7 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local Player = Players.LocalPlayer
 local Mouse = Player:GetMouse()
+local CoreGui = game:GetService("CoreGui")
 
 local Library = {}
 
@@ -806,10 +807,7 @@ end
                 end
             end)
         end
-        
-        local CoreGui = game:GetService("CoreGui")
-local TweenService = game:GetService("TweenService")
-
+    
 local NotifyScreen = Instance.new("ScreenGui")
 NotifyScreen.Name = "NotificationsLib"
 NotifyScreen.Parent = CoreGui
@@ -982,7 +980,57 @@ end
     LabStroke.Color = Color3.fromRGB(152, 17, 242)
     LabStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 end
-
+function Elements:Paragraph(data)
+    local frame = Instance.new("Frame")
+    frame.Parent = Page
+    frame.BackgroundColor3 = Color_Sec
+    frame.Size = UDim2.new(1, 0, 0, 0)
+    frame.AutomaticSize = Enum.AutomaticSize.Y
+    frame.BorderSizePixel = 0
+    
+    local frameCorner = Instance.new("UICorner")
+    frameCorner.CornerRadius = UDim.new(0, 6)
+    frameCorner.Parent = frame
+    
+    local frameStroke = Instance.new("UIStroke")
+    frameStroke.Color = Color3.fromRGB(50, 50, 50)
+    frameStroke.Thickness = 1
+    frameStroke.Parent = frame
+    
+    local uiList = Instance.new("UIListLayout")
+    uiList.Padding = UDim.new(0, 4)
+    uiList.Parent = frame
+    
+    local uiPadding = Instance.new("UIPadding")
+    uiPadding.PaddingLeft = UDim.new(0, 12)
+    uiPadding.PaddingRight = UDim.new(0, 12)
+    uiPadding.PaddingTop = UDim.new(0, 6)
+    uiPadding.PaddingBottom = UDim.new(0, 6)
+    uiPadding.Parent = frame
+    
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Parent = frame
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.Size = UDim2.new(1, 0, 0, 20)
+    titleLabel.Font = Enum.Font.GothamBold
+    titleLabel.Text = data.Title or "Title"
+    titleLabel.TextColor3 = Color_Text
+    titleLabel.TextSize = 14
+    titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    
+    local descLabel = Instance.new("TextLabel")
+    descLabel.Parent = frame
+    descLabel.BackgroundTransparency = 1
+    descLabel.Size = UDim2.new(1, 0, 0, 0)
+    descLabel.AutomaticSize = Enum.AutomaticSize.Y
+    descLabel.Font = Enum.Font.Gotham
+    descLabel.Text = data.Text or "Description"
+    descLabel.TextColor3 = Color3.fromRGB(180, 180, 190)
+    descLabel.TextSize = 12
+    descLabel.TextXAlignment = Enum.TextXAlignment.Left
+    descLabel.TextWrapped = true
+    descLabel.RichText = true
+end
 
         return Elements
     end

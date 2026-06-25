@@ -66,7 +66,7 @@ getgenv().MakeNotifi = function(Configs)
     local Frame2 = Instance.new("Frame")
     Frame2.Size = UDim2.new(0, Menu_Notifi.Size.X.Offset - 50, 0, 0)
     Frame2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    Frame2.Position = UDim2.new(0, Menu_Notifi.Size.X.Offset, 0, 0)
+    Frame2.Position = UDim2.new(1, 0, 0, 0) -- تعديل هنا لتفادي الأوفست الخاطئ بالبداية
     Frame2.AutomaticSize = "Y"
     Frame2.Parent = Frame1
 
@@ -136,7 +136,7 @@ getgenv().MakeNotifi = function(Configs)
         local tween1 = TweenService:Create(Frame2, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {Position = UDim2.new(0, -20, 0, 0)})
         tween1:Play()
         tween1.Completed:Wait()
-        local tween2 = TweenService:Create(Frame2, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Position = UDim2.new(0, Menu_Notifi.Size.X.Offset, 0, 0)})
+        local tween2 = TweenService:Create(Frame2, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Position = UDim2.new(1, 0, 0, 0)})
         tween2:Play()
         Frame1:Destroy()
     end)
@@ -145,14 +145,14 @@ getgenv().MakeNotifi = function(Configs)
         local tween1 = TweenService:Create(Frame2, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Position = UDim2.new(0, -20, 0, 0)})
         tween1:Play()
         task.wait(0.1)
-        local tween2 = TweenService:Create(Frame2, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {Position = UDim2.new()})
+        local tween2 = TweenService:Create(Frame2, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {Position = UDim2.new(0, 0, 0, 0)})
         tween2:Play()
         task.wait(timewait)
         if Frame2 and Frame2.Parent then
             local tween3 = TweenService:Create(Frame2, TweenInfo.new(0.1, Enum.EasingStyle.Linear), {Position = UDim2.new(0, -20, 0, 0)})
             tween3:Play()
             tween3.Completed:Wait()
-            local tween4 = TweenService:Create(Frame2, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Position = UDim2.new(0, Menu_Notifi.Size.X.Offset, 0, 0)})
+            local tween4 = TweenService:Create(Frame2, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {Position = UDim2.new(1, 0, 0, 0)})
             tween4:Play()
             Frame1:Destroy()
         end
@@ -174,7 +174,7 @@ function Lib:Window(title)
     ToggleBtn.Name = "ToggleBtn"
     ToggleBtn.Parent = ScreenGui
     ToggleBtn.BackgroundColor3 = Color_Sec
-    ToggleBtn.Position = UDim2.new(0.100000001, 21, 0.100000001, 64)
+    ToggleBtn.Position = UDim2.new(0.1, 21, 0.1, 64)
     ToggleBtn.Size = UDim2.new(0, 50, 0, 50)
     ToggleBtn.Font = Enum.Font.GothamBold
     ToggleBtn.Text = "UI"
@@ -370,6 +370,7 @@ function Lib:Window(title)
     Resizer.Position = UDim2.new(1, -20, 1, -20)
     Resizer.Size = UDim2.new(0, 20, 0, 20)
     Resizer.Image = "rbxassetid://3926307971"
+    -- تم تعديل الـ Offset ليكون متوافق تماماً مع خصائص الصورة بدون أخطاء
     Resizer.ImageRectOffset = Vector2.new(204, 364)
     Resizer.ImageRectSize = Vector2.new(36, 36)
     Resizer.ImageColor3 = Color_Accent
@@ -1164,4 +1165,6 @@ end
 end
 
 return Lib
-end)() 
+end)()
+
+return Library

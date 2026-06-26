@@ -159,17 +159,16 @@ local Library = (function()
     end
 
     function Lib:Window(Configs)
-        local title = Configs.Hub.Title or "HexHubX"
-        
-        local KeySystem = Configs.Key.KeySystem or false
-        local KeyTitle = Configs.Key.Title or "Key System"
-        local KeyDescription = Configs.Key.Description or "Get key on discord server"
-        local KeyKey = Configs.Key.Keys or {"123", "321"}
-        local KeyLink = Configs.Key.KeyLink or ""
-        local KeyNotifications = Configs.Key.Notifi.Notifications or true
-        local KeyNotSuccess = Configs.Key.Notifi.Incorrectkey or "The key is incorrect"
-        local KeySuccess = Configs.Key.Notifi.CorrectKey or "Running the Script..."
-        local KeyCopyKeyLink = Configs.Key.Notifi.CopyKeyLink or "Copied to Clipboard"
+        local title = Configs.Title or "HexHubX"
+        local KeySystem = Configs.KeySystem or false
+        local KeyTitle = Configs.KeyTitle or "Key System"
+        local KeyDescription = Configs.KeyDescription or "Enter your key to continue"
+        local KeyKeys = Configs.KeyKeys or {"123", "321"}
+        local KeyLink = Configs.KeyLink or ""
+        local KeyNotifications = Configs.KeyNotifications or true
+        local KeyNotSuccess = Configs.KeyNotSuccess or "The key is incorrect"
+        local KeySuccess = Configs.KeySuccess or "Running the Script..."
+        local KeyCopyKeyLink = Configs.KeyCopyKeyLink or "Copied to Clipboard"
 
         local ScreenGui = Instance.new("ScreenGui")
         ScreenGui.Name = "HexHubX"
@@ -180,156 +179,128 @@ local Library = (function()
 
         if KeySystem then
             local KeyMenu = Instance.new("Frame")
-            local KeyMenuCorner = Instance.new("UICorner")
-            local KeyMenuStroke = Instance.new("UIStroke")
-            local CloseButton = Instance.new("TextButton")
-            local CloseCorner = Instance.new("UICorner")
-            local KTitle = Instance.new("TextLabel")
-            local Description = Instance.new("TextLabel")
-            local ConfirmButton = Instance.new("TextButton")
-            local ConfirmCorner = Instance.new("UICorner")
-            local GetKeyLink = Instance.new("TextButton")
-            local GetKeyCorner = Instance.new("UICorner")
-            local TextBox = Instance.new("TextBox")
-            local TextBoxCorner = Instance.new("UICorner")
-
-            KeyMenu.Name = "KeyMenu"
             KeyMenu.Parent = ScreenGui
-            KeyMenu.Size = UDim2.new(0, 438, 0, 324)
+            KeyMenu.Size = UDim2.new(0, 400, 0, 220)
+            KeyMenu.Position = UDim2.new(0.5, 0, 0.5, 0)
             KeyMenu.BackgroundColor3 = Color_Main
             KeyMenu.AnchorPoint = Vector2.new(0.5, 0.5)
-            KeyMenu.Position = UDim2.new(0.5, 0, 0.5, 0)
             KeyMenu.Active = true
             KeyMenu.Draggable = true
 
-            KeyMenuCorner.CornerRadius = UDim.new(0, 8)
-            KeyMenuCorner.Parent = KeyMenu
+            local KeyCorner = Instance.new("UICorner")
+            KeyCorner.CornerRadius = UDim.new(0, 12)
+            KeyCorner.Parent = KeyMenu
 
-            KeyMenuStroke.Parent = KeyMenu
-            KeyMenuStroke.Thickness = 1.7
-            KeyMenuStroke.Color = Color_Accent
-
+            local CloseButton = Instance.new("TextButton")
             CloseButton.Parent = KeyMenu
             CloseButton.Size = UDim2.new(0, 30, 0, 30)
             CloseButton.Position = UDim2.new(1, -10, 0, 5)
             CloseButton.AnchorPoint = Vector2.new(1, 0)
             CloseButton.Text = "X"
             CloseButton.Font = Enum.Font.FredokaOne
-            CloseButton.TextSize = 20
-            CloseButton.TextColor3 = Color_Accent
+            CloseButton.TextScaled = true
+            CloseButton.TextColor3 = Color3.fromRGB(240, 0, 0)
             CloseButton.BackgroundTransparency = 1
 
-            CloseCorner.CornerRadius = UDim.new(0, 6)
-            CloseCorner.Parent = CloseButton
+            local TitleLabel = Instance.new("TextLabel")
+            TitleLabel.Parent = KeyMenu
+            TitleLabel.Size = UDim2.new(1, -80, 0, 20)
+            TitleLabel.Position = UDim2.new(0, 20, 0, 5)
+            TitleLabel.Text = KeyTitle
+            TitleLabel.Font = Enum.Font.GothamBold
+            TitleLabel.TextScaled = true
+            TitleLabel.TextColor3 = Color_Text
+            TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+            TitleLabel.BackgroundTransparency = 1
 
-            KTitle.Parent = KeyMenu
-            KTitle.Size = UDim2.new(1, -80, 0, 30)
-            KTitle.Position = UDim2.new(0, 20, 0, 10)
-            KTitle.Text = KeyTitle
-            KTitle.Font = Enum.Font.GothamBold
-            KTitle.TextSize = 16
-            KTitle.TextColor3 = Color_Text
-            KTitle.TextXAlignment = Enum.TextXAlignment.Left
-            KTitle.BackgroundTransparency = 1
+            local DescriptionLabel = Instance.new("TextLabel")
+            DescriptionLabel.Parent = KeyMenu
+            DescriptionLabel.Size = UDim2.new(1, -80, 0, 0)
+            DescriptionLabel.Text = KeyDescription
+            DescriptionLabel.TextSize = 17
+            DescriptionLabel.TextColor3 = Color_TextDim
+            DescriptionLabel.Font = Enum.Font.Gotham
+            DescriptionLabel.Position = UDim2.new(0, 20, 0, 25)
+            DescriptionLabel.TextXAlignment = Enum.TextXAlignment.Left
+            DescriptionLabel.AutomaticSize = "Y"
+            DescriptionLabel.TextYAlignment = Enum.TextYAlignment.Top
+            DescriptionLabel.BackgroundTransparency = 1
 
-            Description.Parent = KeyMenu
-            Description.Size = UDim2.new(1, -40, 0, 0)
-            Description.Text = KeyDescription
-            Description.TextSize = 13
-            Description.TextColor3 = Color_TextDim
-            Description.Font = Enum.Font.Gotham
-            Description.Position = UDim2.new(0, 20, 0, 45)
-            Description.TextXAlignment = Enum.TextXAlignment.Left
-            Description.AutomaticSize = Enum.AutomaticSize.Y
-            Description.TextYAlignment = Enum.TextYAlignment.Top
-            Description.BackgroundTransparency = 1
+            local ConfirmButton = Instance.new("TextButton")
+            ConfirmButton.Parent = KeyMenu
+            ConfirmButton.Text = "Confirm"
+            ConfirmButton.Font = Enum.Font.GothamBold
+            ConfirmButton.TextSize = 20
+            ConfirmButton.TextColor3 = Color_Text
+            ConfirmButton.Size = UDim2.new(0, 150, 0, 40)
+            ConfirmButton.AnchorPoint = Vector2.new(1, 0)
+            ConfirmButton.Position = UDim2.new(1, -35, 0, 140)
+            ConfirmButton.BackgroundColor3 = Color_Accent
 
+            local ConfirmCorner = Instance.new("UICorner")
+            ConfirmCorner.CornerRadius = UDim.new(0, 8)
+            ConfirmCorner.Parent = ConfirmButton
+
+            local GetKeyLinkBtn = Instance.new("TextButton")
+            GetKeyLinkBtn.Parent = KeyMenu
+            GetKeyLinkBtn.Text = "Get Key Link"
+            GetKeyLinkBtn.Font = Enum.Font.GothamBold
+            GetKeyLinkBtn.TextSize = 20
+            GetKeyLinkBtn.TextColor3 = Color_Text
+            GetKeyLinkBtn.Size = UDim2.new(0, 150, 0, 40)
+            GetKeyLinkBtn.Position = UDim2.new(0, 35, 0, 140)
+            GetKeyLinkBtn.BackgroundColor3 = Color_Sec
+
+            local GetKeyCorner = Instance.new("UICorner")
+            GetKeyCorner.CornerRadius = UDim.new(0, 8)
+            GetKeyCorner.Parent = GetKeyLinkBtn
+
+            local TextBox = Instance.new("TextBox")
             TextBox.Parent = KeyMenu
-            TextBox.Size = UDim2.new(0, 336, 0, 50)
-            TextBox.Position = UDim2.new(0.5, 0, 0, 100)
-            TextBox.AnchorPoint = Vector2.new(0.5, 0)
+            TextBox.Size = UDim2.new(1, -70, 0, 40)
+            TextBox.Position = UDim2.new(0, 35, 0, 90)
             TextBox.BackgroundColor3 = Color_Sec
             TextBox.PlaceholderText = "Put the Key here"
             TextBox.Text = ""
             TextBox.TextColor3 = Color_Text
             TextBox.Font = Enum.Font.Gotham
-            TextBox.TextSize = 14
-            TextBox.BorderSizePixel = 0
+            TextBox.TextSize = 25
 
-            TextBoxCorner.CornerRadius = UDim.new(0, 6)
+            local TextBoxCorner = Instance.new("UICorner")
+            TextBoxCorner.CornerRadius = UDim.new(0, 8)
             TextBoxCorner.Parent = TextBox
 
-            GetKeyLink.Parent = KeyMenu
-            GetKeyLink.Text = "Get Key Link"
-            GetKeyLink.Font = Enum.Font.GothamBold
-            GetKeyLink.TextSize = 14
-            GetKeyLink.TextColor3 = Color_Text
-            GetKeyLink.Size = UDim2.new(0, 150, 0, 45)
-            GetKeyLink.Position = UDim2.new(0, 52, 0, 190)
-            GetKeyLink.BackgroundColor3 = Color_Sec
-            GetKeyLink.BorderSizePixel = 0
-
-            GetKeyCorner.CornerRadius = UDim.new(0, 6)
-            GetKeyCorner.Parent = GetKeyLink
-            
-            local StrokeG = Instance.new("UIStroke", GetKeyLink)
-            StrokeG.Thickness = 1.7
-            StrokeG.Color = Color_Accent
-
-            ConfirmButton.Parent = KeyMenu
-            ConfirmButton.Text = "Confirm"
-            ConfirmButton.Font = Enum.Font.GothamBold
-            ConfirmButton.TextSize = 14
-            ConfirmButton.TextColor3 = Color_Text
-            ConfirmButton.Size = UDim2.new(0, 150, 0, 45)
-            ConfirmButton.Position = UDim2.new(0, 238, 0, 190)
-            ConfirmButton.BackgroundColor3 = Color_Sec
-            ConfirmButton.BorderSizePixel = 0
-
-            ConfirmCorner.CornerRadius = UDim.new(0, 6)
-            ConfirmCorner.Parent = ConfirmButton
-            
-            local StrokeC = Instance.new("UIStroke", ConfirmButton)
-            StrokeC.Thickness = 1.7
-            StrokeC.Color = Color_Accent
-
             local KeyVerify = false
-            
+
             CloseButton.MouseButton1Click:Connect(function()
                 ScreenGui:Destroy()
             end)
 
             ConfirmButton.MouseButton1Click:Connect(function()
-                for _, v in pairs(KeyKey) do
+                for _, v in pairs(KeyKeys) do
                     if TextBox.Text == v then
                         KeyVerify = true
                     end
                 end
-                if not KeyVerify then
-                    if KeyNotifications then
-                        getgenv().MakeNotifi({
-                            Title = KeyTitle,
-                            Text = KeyNotSuccess,
-                            Time = 5
-                        })
-                    end
-                else
-                    if KeyNotifications then
-                        getgenv().MakeNotifi({
-                            Title = KeyTitle,
-                            Text = KeySuccess,
-                            Time = 5
-                        })
-                    end
-                    task.wait(1)
-                    KeyMenu:Destroy()
+                if KeyNotifications and not KeyVerify then
+                    MakeNotifi({
+                        Title = KeyTitle,
+                        Text = KeyNotSuccess,
+                        Time = 5
+                    })
+                elseif KeyNotifications then
+                    MakeNotifi({
+                        Title = KeyTitle,
+                        Text = KeySuccess,
+                        Time = 5
+                    })
                 end
             end)
 
-            GetKeyLink.MouseButton1Click:Connect(function()
-                setclipboard(KeyLink)
+            GetKeyLinkBtn.MouseButton1Click:Connect(function()
                 if KeyNotifications then
-                    getgenv().MakeNotifi({
+                    setclipboard(KeyLink)
+                    MakeNotifi({
                         Title = KeyTitle,
                         Text = KeyCopyKeyLink,
                         Time = 5
@@ -337,7 +308,9 @@ local Library = (function()
                 end
             end)
 
-            repeat task.wait() until KeyVerify
+            repeat task.wait()
+            until KeyVerify
+            KeyMenu:Destroy()
         end
 
         local ToggleBtn = Instance.new("TextButton")
@@ -383,6 +356,7 @@ local Library = (function()
 
         ToggleBtn.MouseButton1Click:Connect(function()
             isOpen = not isOpen
+            
             if isOpen then
                 Main.Visible = true
                 TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Size = fullSize}):Play()

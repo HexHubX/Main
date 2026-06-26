@@ -947,7 +947,7 @@ end
                 end
             end)
         end
-
+        
         function Elements:Paragraph(config)
             local PFrame = Instance.new("Frame")
             local PCorner = Instance.new("UICorner")

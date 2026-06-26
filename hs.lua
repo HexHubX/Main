@@ -23,7 +23,7 @@ local Library = (function()
 
     getgenv().MakeNotifi = function(Configs)
         local Title = Configs.Title or "HexHubX"
-        local text = Configs.Text or "Notificação"
+        local text = Configs.Text or "Notification"
         local timewait = Configs.Time or 5
 
         local NotifyScreen = CoreGui:FindFirstChild("NotificationsLib")
@@ -160,6 +160,7 @@ local Library = (function()
 
     function Lib:Window(Configs)
         local title = Configs.Hub.Title or "HexHubX"
+        local customTag = Configs.Hub.UserTag or "Premium User"
         
         local KeySystem = Configs.Key.KeySystem or false
         local KeyTitle = Configs.Key.Title or "Key System"
@@ -511,7 +512,7 @@ local Library = (function()
 
         TabsContainer.Parent = TabsFrame
         TabsContainer.BackgroundTransparency = 1
-        TabsContainer.Size = UDim2.new(1, 0, 1, 0)
+        TabsContainer.Size = UDim2.new(1, 0, 1, -55) -- Adjusted to leave space for the profile layout card
         TabsContainer.ScrollBarThickness = 0
 
         TabsList.Parent = TabsContainer
@@ -521,6 +522,66 @@ local Library = (function()
 
         TabsPad.Parent = TabsContainer
         TabsPad.PaddingTop = UDim.new(0, 10)
+
+        -- Integrated English Profile Card Feature
+        local UserCard = Instance.new("Frame")
+        local CardCorner = Instance.new("UICorner")
+        local UserAvatar = Instance.new("ImageLabel")
+        local AvatarCorner = Instance.new("UICorner")
+        local TextContainer = Instance.new("Frame")
+        local TopCustomText = Instance.new("TextLabel")
+        local PlayerNameLabel = Instance.new("TextLabel")
+
+        UserCard.Name = "UserCard"
+        UserCard.Parent = TabsFrame
+        UserCard.Size = UDim2.new(1, -12, 0, 45)
+        UserCard.Position = UDim2.new(0.5, 0, 1, -10)
+        UserCard.AnchorPoint = Vector2.new(0.5, 1)
+        UserCard.BackgroundColor3 = Color_Main
+        UserCard.BorderSizePixel = 0
+
+        CardCorner.CornerRadius = UDim.new(0, 6)
+        CardCorner.Parent = UserCard
+
+        UserAvatar.Name = "UserAvatar"
+        UserAvatar.Parent = UserCard
+        UserAvatar.Size = UDim2.new(0, 32, 0, 32)
+        UserAvatar.Position = UDim2.new(0, 6, 0.5, 0)
+        UserAvatar.AnchorPoint = Vector2.new(0, 0.5)
+        UserAvatar.BackgroundTransparency = 1
+        UserAvatar.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. Player.UserId .. "&width=150&height=150&format=png"
+
+        AvatarCorner.CornerRadius = UDim.new(1, 0)
+        AvatarCorner.Parent = UserAvatar
+
+        TextContainer.Name = "TextContainer"
+        TextContainer.Parent = UserCard
+        TextContainer.Size = UDim2.new(1, -44, 1, 0)
+        TextContainer.Position = UDim2.new(0, 42, 0, 0)
+        TextContainer.BackgroundTransparency = 1
+
+        TopCustomText.Name = "TopCustomText"
+        TopCustomText.Parent = TextContainer
+        TopCustomText.Size = UDim2.new(1, 0, 0, 18)
+        TopCustomText.Position = UDim2.new(0, 0, 0, 5)
+        TopCustomText.BackgroundTransparency = 1
+        TopCustomText.Font = Enum.Font.GothamBold
+        TopCustomText.Text = customTag
+        TopCustomText.TextColor3 = Color_Accent
+        TopCustomText.TextSize = 10
+        TopCustomText.TextXAlignment = Enum.TextXAlignment.Left
+
+        PlayerNameLabel.Name = "PlayerNameLabel"
+        PlayerNameLabel.Parent = TextContainer
+        PlayerNameLabel.Size = UDim2.new(1, 0, 0, 18)
+        PlayerNameLabel.Position = UDim2.new(0, 0, 0, 18)
+        PlayerNameLabel.BackgroundTransparency = 1
+        PlayerNameLabel.Font = Enum.Font.GothamMedium
+        PlayerNameLabel.Text = Player.DisplayName
+        PlayerNameLabel.TextColor3 = Color_Text
+        PlayerNameLabel.TextSize = 11
+        PlayerNameLabel.TextXAlignment = Enum.TextXAlignment.Left
+        PlayerNameLabel.TextTruncate = Enum.TextTruncate.AtEnd
 
         PagesFrame.Parent = Main
         PagesFrame.BackgroundColor3 = Color_Main
@@ -632,87 +693,6 @@ local Library = (function()
             end
 
             local Elements = {}
-
-            function Elements:Button(text, imageId, callback)
-                local Button = Instance.new("TextButton")
-                local BtnCorner = Instance.new("UICorner")
-                local BtnStroke = Instance.new("UIStroke")
-                local BtnIcon = Instance.new("ImageLabel")
-                local BtnText = Instance.new("TextLabel")
-                
-                Button.Parent = Page
-                Button.BackgroundColor3 = Color_Sec
-                Button.Size = UDim2.new(1, 0, 0, 32)
-                Button.Text = ""
-                Button.AutoButtonColor = false
-
-                BtnText.Parent = Button
-                BtnText.BackgroundTransparency = 1
-                BtnText.Position = UDim2.new(0, (imageId and imageId ~= "" and 35 or 10), 0.5, -9)
-                BtnText.Size = UDim2.new(1, -50, 0, 18)
-                BtnText.Font = Enum.Font.Gotham
-                BtnText.Text = text
-                BtnText.TextColor3 = Color_Text
-                BtnText.TextSize = 13
-                BtnText.TextXAlignment = Enum.TextXAlignment.Left
-
-                if imageId and imageId ~= "" then
-                    local BtnImg = Instance.new("ImageLabel")
-                    BtnImg.Parent = Button
-                    BtnImg.BackgroundTransparency = 1
-                    BtnImg.Position = UDim2.new(0, 10, 0.5, -9)
-                    BtnImg.Size = UDim2.new(0, 18, 0, 18)
-                    BtnImg.Image = imageId
-                    BtnImg.ImageColor3 = Color_Text
-                    
-                    Button.MouseEnter:Connect(function()
-                        TweenService:Create(BtnImg, TweenInfo.new(0.2), {ImageColor3 = Color_Accent}):Play()
-                    end)
-                    Button.MouseLeave:Connect(function()
-                        TweenService:Create(BtnImg, TweenInfo.new(0.2), {ImageColor3 = Color_Text}):Play()
-                    end)
-                end
-
-                BtnIcon.Parent = Button
-                BtnIcon.BackgroundTransparency = 1
-                BtnIcon.Position = UDim2.new(1, -28, 0.5, -9)
-                BtnIcon.Size = UDim2.new(0, 18, 0, 18)
-                BtnIcon.Image = "rbxassetid://7734010488"
-                BtnIcon.ImageColor3 = Color_Text
-
-                BtnCorner.CornerRadius = UDim.new(0, 6)
-                BtnCorner.Parent = Button
-
-                BtnStroke.Parent = Button
-                BtnStroke.Thickness = 1
-                BtnStroke.Color = Color_Sec
-                BtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-
-                Button.MouseEnter:Connect(function()
-                    TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(35,35,35)}):Play()
-                    TweenService:Create(BtnStroke, TweenInfo.new(0.2), {Color = Color_Accent}):Play()
-                    TweenService:Create(BtnIcon, TweenInfo.new(0.2), {ImageColor3 = Color_Accent}):Play()
-                    TweenService:Create(BtnText, TweenInfo.new(0.2), {TextColor3 = Color_Accent}):Play()
-                end)
-
-                Button.MouseLeave:Connect(function()
-                    TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color_Sec}):Play()
-                    TweenService:Create(BtnStroke, TweenInfo.new(0.2), {Color = Color_Sec}):Play()
-                    TweenService:Create(BtnIcon, TweenInfo.new(0.2), {ImageColor3 = Color_Text}):Play()
-                    TweenService:Create(BtnText, TweenInfo.new(0.2), {TextColor3 = Color_Text}):Play()
-                end)
-
-                Button.MouseButton1Click:Connect(function()
-                    TweenService:Create(Button, TweenInfo.new(0.1), {BackgroundColor3 = Color_Accent}):Play()
-                    TweenService:Create(BtnText, TweenInfo.new(0.1), {TextColor3 = Color_Main}):Play()
-                    TweenService:Create(BtnIcon, TweenInfo.new(0.1), {ImageColor3 = Color_Main}):Play()
-                    task.wait(0.1)
-                    TweenService:Create(Button, TweenInfo.new(0.3), {BackgroundColor3 = Color_Sec}):Play()
-                    TweenService:Create(BtnText, TweenInfo.new(0.3), {TextColor3 = Color_Text}):Play()
-                    TweenService:Create(BtnIcon, TweenInfo.new(0.3), {ImageColor3 = Color_Text}):Play()
-                    pcall(callback)
-                end)
-            end
 
             function Elements:Toggle(text, default, callback)
                 local ToggleFrame = Instance.new("TextButton")

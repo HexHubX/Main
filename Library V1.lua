@@ -610,91 +610,96 @@ local Library = (function()
             end
             
             function Elements:Discord(data)
-                local DiscordFrame = Instance.new("TextButton")
-                local DiscordCorner = Instance.new("UICorner")
-                local Icon = Instance.new("ImageLabel")
-                local TextContainer = Instance.new("Frame")
-                local TitleLabel = Instance.new("TextLabel")
-                local private = Instance.new("TextLabel")
-                local OpenButton = Instance.new("TextButton")
-                local OpenCorner = Instance.new("UICorner")
-                local OpenStroke = Instance.new("UIStroke")
+    local DiscordFrame = Instance.new("Frame")
+    DiscordFrame.Parent = Page
+    DiscordFrame.Size = UDim2.new(1, 0, 0, 110)
+    DiscordFrame.BackgroundColor3 = Color_Sec
+    DiscordFrame.AutomaticSize = "Y"
+    DiscordFrame.BorderSizePixel = 0
 
-                DiscordFrame.Parent = Page
-                DiscordFrame.BackgroundColor3 = Color_Sec
-                DiscordFrame.Size = UDim2.new(1, 0, 0, 60)
-                DiscordFrame.AutoButtonColor = false
-                DiscordFrame.Text = ""
+    local DiscordCorner = Instance.new("UICorner")
+    DiscordCorner.CornerRadius = UDim.new(0, 6)
+    DiscordCorner.Parent = DiscordFrame
 
-                DiscordCorner.CornerRadius = UDim.new(0, 6)
-                DiscordCorner.Parent = DiscordFrame
+    local LinkLabel = Instance.new("TextLabel")
+    LinkLabel.Parent = DiscordFrame
+    LinkLabel.Size = UDim2.new(1, 0, 0, 25)
+    LinkLabel.Position = UDim2.new(0, 12, 0, 0)
+    LinkLabel.BackgroundTransparency = 1
+    LinkLabel.Text = data.DiscordLink or "discord.gg/..."
+    LinkLabel.TextXAlignment = Enum.TextXAlignment.Left
+    LinkLabel.TextColor3 = Color3.fromRGB(0, 120, 255)
+    LinkLabel.Font = Enum.Font.GothamBold
+    LinkLabel.TextSize = 14
 
-                Icon.Parent = DiscordFrame
-                Icon.BackgroundTransparency = 1
-                Icon.Position = UDim2.new(0, 12, 0.5, -15)
-                Icon.Size = UDim2.new(0, 30, 0, 30)
-                Icon.Image = data.DiscordIcon or "rbxassetid://10723424838"
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Parent = DiscordFrame
+    TitleLabel.Size = UDim2.new(1, 0, 0, 25)
+    TitleLabel.Position = UDim2.new(0, 60, 0, 25)
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Text = data.DiscordTitle or "Join our Discord"
+    TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    TitleLabel.TextColor3 = Color_Text
+    TitleLabel.Font = Enum.Font.GothamBold
+    TitleLabel.TextSize = 14
 
-                TextContainer.Parent = DiscordFrame
-                TextContainer.BackgroundTransparency = 1
-                TextContainer.Position = UDim2.new(0, 52, 0, 0)
-                TextContainer.Size = UDim2.new(1, -120, 1, 0)
+    local Icon = Instance.new("ImageLabel")
+    Icon.Parent = DiscordFrame
+    Icon.Size = UDim2.new(0, 40, 0, 40)
+    Icon.AnchorPoint = Vector2.new(0, 0.5)
+    Icon.Position = UDim2.new(0, 12, 0.45, 0)
+    Icon.BackgroundTransparency = 1
+    Icon.Image = data.DiscordIcon or "rbxassetid://10723424838"
 
-                TitleLabel.Parent = TextContainer
-                TitleLabel.BackgroundTransparency = 1
-                TitleLabel.Position = UDim2.new(0, 0, 0, 8)
-                TitleLabel.Size = UDim2.new(1, 0, 0, 18)
-                TitleLabel.Font = Enum.Font.GothamBold
-                TitleLabel.Text = data.DiscordTitle or "Join our Discord"
-                TitleLabel.TextColor3 = Color_Text
-                TitleLabel.TextSize = 14
-                TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    local IconCorner = Instance.new("UICorner")
+    IconCorner.CornerRadius = UDim.new(0, 4)
+    IconCorner.Parent = Icon
 
-                private.Parent = TextContainer
-                private.BackgroundTransparency = 1
-                private.Position = UDim2.new(0, 0, 0, 28)
-                private.Size = UDim2.new(1, 0, 0, 18)
-                private.Font = Enum.Font.Gotham
-                private.Text = data.DiscordLink or "discord.gg/..."
-                private.TextColor3 = Color3.fromRGB(150, 150, 150)
-                private.TextSize = 12
-                private.TextXAlignment = Enum.TextXAlignment.Left
+    local JoinButton = Instance.new("TextButton")
+    JoinButton.Parent = DiscordFrame
+    JoinButton.Size = UDim2.new(1, -24, 0, 30)
+    JoinButton.AnchorPoint = Vector2.new(0.5, 1)
+    JoinButton.Position = UDim2.new(0.5, 0, 1, -8)
+    JoinButton.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+    JoinButton.Text = "Join"
+    JoinButton.TextColor3 = Color3.fromRGB(220, 220, 220)
+    JoinButton.Font = Enum.Font.GothamBold
+    JoinButton.TextSize = 15
+    JoinButton.BorderSizePixel = 0
+    JoinButton.AutoButtonColor = false
 
-                OpenButton.Parent = DiscordFrame
-                OpenButton.BackgroundColor3 = Color_Main
-                OpenButton.Position = UDim2.new(1, -50, 0.5, -12)
-                OpenButton.Size = UDim2.new(0, 40, 0, 24)
-                OpenButton.Text = "Join"
-                OpenButton.TextColor3 = Color_Text
-                OpenButton.TextSize = 12
-                OpenButton.Font = Enum.Font.GothamBold
-                OpenButton.AutoButtonColor = false
+    local JoinCorner = Instance.new("UICorner")
+    JoinCorner.CornerRadius = UDim.new(0, 4)
+    JoinCorner.Parent = JoinButton
 
-                OpenCorner.CornerRadius = UDim.new(0, 4)
-                OpenCorner.Parent = OpenButton
+    local clickTime = tick()
+    local clickCount = 0
 
-                OpenStroke.Parent = OpenButton
-                OpenStroke.Thickness = 1
-                OpenStroke.Color = Color3.fromRGB(50, 50, 50)
+    JoinButton.MouseEnter:Connect(function()
+        TweenService:Create(JoinButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(60, 220, 60)}):Play()
+    end)
 
-                OpenButton.MouseEnter:Connect(function()
-                    TweenService:Create(OpenButton, TweenInfo.new(0.2), {BackgroundColor3 = Color_Accent}):Play()
-                end)
-                OpenButton.MouseLeave:Connect(function()
-                    TweenService:Create(OpenButton, TweenInfo.new(0.2), {BackgroundColor3 = Color_Main}):Play()
-                end)
+    JoinButton.MouseLeave:Connect(function()
+        if JoinButton.Text ~= "Copied to Clipboard" then
+            TweenService:Create(JoinButton, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(50, 200, 50)}):Play()
+        end
+    end)
 
-                OpenButton.MouseButton1Click:Connect(function()
-                    if data.DiscordLink and data.DiscordLink ~= "" then
-                        setclipboard(data.DiscordLink)
-                        MakeNotifi({
-                            Title = "Discord Link",
-                            Text = "Link copied to clipboard!",
-                            Time = 2
-                        })
-                    end
-                end)
-            end
+    JoinButton.MouseButton1Click:Connect(function()
+        if clickCount == 0 or tick() - clickTime > 5 then
+            clickTime = tick()
+            setclipboard(data.DiscordLink or "")
+            clickCount = clickCount + 1
+            JoinButton.Text = "Copied to Clipboard"
+            JoinButton.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+            JoinButton.TextColor3 = Color3.fromRGB(150, 150, 150)
+            task.wait(5)
+            JoinButton.Text = "Join"
+            JoinButton.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+            JoinButton.TextColor3 = Color3.fromRGB(220, 220, 220)
+        end
+    end)
+end
 
             function Elements:TextBox(text, placeholder, callback)
                 local TextBoxFrame = Instance.new("TextButton")

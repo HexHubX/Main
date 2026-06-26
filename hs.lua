@@ -159,16 +159,17 @@ local Library = (function()
     end
 
     function Lib:Window(Configs)
-        local title = Configs.Title or "HexHubX"
-        local KeySystem = Configs.KeySystem or false
-        local KeyTitle = Configs.KeyTitle or "Key System"
-        local KeyDescription = Configs.KeyDescription or "Enter your key to continue"
-        local KeyKeys = Configs.KeyKeys or {"123", "321"}
-        local KeyLink = Configs.KeyLink or ""
-        local KeyNotifications = Configs.KeyNotifications or true
-        local KeyNotSuccess = Configs.KeyNotSuccess or "The key is incorrect"
-        local KeySuccess = Configs.KeySuccess or "Running the Script..."
-        local KeyCopyKeyLink = Configs.KeyCopyKeyLink or "Copied to Clipboard"
+        local title = Configs.Hub.Title or "HexHubX"
+        
+        local KeySystem = Configs.Key.KeySystem or false
+        local KeyTitle = Configs.Key.Title or "Key System"
+        local KeyDescription = Configs.Key.Description or "Get key on discord server"
+        local KeyKey = Configs.Key.Keys or {"123", "321"}
+        local KeyLink = Configs.Key.KeyLink or ""
+        local KeyNotifications = Configs.Key.Notifi.Notifications or true
+        local KeyNotSuccess = Configs.Key.Notifi.Incorrectkey or "The key is incorrect"
+        local KeySuccess = Configs.Key.Notifi.CorrectKey or "Running the Script..."
+        local KeyCopyKeyLink = Configs.Key.Notifi.CopyKeyLink or "Copied to Clipboard"
 
         local ScreenGui = Instance.new("ScreenGui")
         ScreenGui.Name = "HexHubX"
@@ -179,128 +180,148 @@ local Library = (function()
 
         if KeySystem then
             local KeyMenu = Instance.new("Frame")
+            local KeyMenuCorner = Instance.new("UICorner")
+            local KeyMenuStroke = Instance.new("UIStroke")
+            local CloseButton = Instance.new("TextButton")
+            local CloseCorner = Instance.new("UICorner")
+            local KTitle = Instance.new("TextLabel")
+            local Description = Instance.new("TextLabel")
+            local ConfirmButton = Instance.new("TextButton")
+            local ConfirmCorner = Instance.new("UICorner")
+            local GetKeyLink = Instance.new("TextButton")
+            local GetKeyCorner = Instance.new("UICorner")
+            local TextBox = Instance.new("TextBox")
+            local TextBoxCorner = Instance.new("UICorner")
+
+            KeyMenu.Name = "KeyMenu"
             KeyMenu.Parent = ScreenGui
-            KeyMenu.Size = UDim2.new(0, 400, 0, 220)
-            KeyMenu.Position = UDim2.new(0.5, 0, 0.5, 0)
+            KeyMenu.Size = UDim2.new(0, 438, 0, 324)
             KeyMenu.BackgroundColor3 = Color_Main
             KeyMenu.AnchorPoint = Vector2.new(0.5, 0.5)
+            KeyMenu.Position = UDim2.new(0.5, 0, 0.5, 0)
             KeyMenu.Active = true
             KeyMenu.Draggable = true
 
-            local KeyCorner = Instance.new("UICorner")
-            KeyCorner.CornerRadius = UDim.new(0, 12)
-            KeyCorner.Parent = KeyMenu
+            KeyMenuCorner.CornerRadius = UDim.new(0, 8)
+            KeyMenuCorner.Parent = KeyMenu
 
-            local CloseButton = Instance.new("TextButton")
+            KeyMenuStroke.Parent = KeyMenu
+            KeyMenuStroke.Thickness = 1.7
+            KeyMenuStroke.Color = Color_Accent
+
             CloseButton.Parent = KeyMenu
             CloseButton.Size = UDim2.new(0, 30, 0, 30)
             CloseButton.Position = UDim2.new(1, -10, 0, 5)
             CloseButton.AnchorPoint = Vector2.new(1, 0)
             CloseButton.Text = "X"
             CloseButton.Font = Enum.Font.FredokaOne
-            CloseButton.TextScaled = true
-            CloseButton.TextColor3 = Color3.fromRGB(240, 0, 0)
+            CloseButton.TextSize = 20
+            CloseButton.TextColor3 = Color_Accent
             CloseButton.BackgroundTransparency = 1
 
-            local TitleLabel = Instance.new("TextLabel")
-            TitleLabel.Parent = KeyMenu
-            TitleLabel.Size = UDim2.new(1, -80, 0, 20)
-            TitleLabel.Position = UDim2.new(0, 20, 0, 5)
-            TitleLabel.Text = KeyTitle
-            TitleLabel.Font = Enum.Font.GothamBold
-            TitleLabel.TextScaled = true
-            TitleLabel.TextColor3 = Color_Text
-            TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
-            TitleLabel.BackgroundTransparency = 1
+            CloseCorner.CornerRadius = UDim.new(0, 6)
+            CloseCorner.Parent = CloseButton
 
-            local DescriptionLabel = Instance.new("TextLabel")
-            DescriptionLabel.Parent = KeyMenu
-            DescriptionLabel.Size = UDim2.new(1, -80, 0, 0)
-            DescriptionLabel.Text = KeyDescription
-            DescriptionLabel.TextSize = 17
-            DescriptionLabel.TextColor3 = Color_TextDim
-            DescriptionLabel.Font = Enum.Font.Gotham
-            DescriptionLabel.Position = UDim2.new(0, 20, 0, 25)
-            DescriptionLabel.TextXAlignment = Enum.TextXAlignment.Left
-            DescriptionLabel.AutomaticSize = "Y"
-            DescriptionLabel.TextYAlignment = Enum.TextYAlignment.Top
-            DescriptionLabel.BackgroundTransparency = 1
+            KTitle.Parent = KeyMenu
+            KTitle.Size = UDim2.new(1, -80, 0, 30)
+            KTitle.Position = UDim2.new(0, 20, 0, 10)
+            KTitle.Text = KeyTitle
+            KTitle.Font = Enum.Font.GothamBold
+            KTitle.TextSize = 16
+            KTitle.TextColor3 = Color_Text
+            KTitle.TextXAlignment = Enum.TextXAlignment.Left
+            KTitle.BackgroundTransparency = 1
 
-            local ConfirmButton = Instance.new("TextButton")
-            ConfirmButton.Parent = KeyMenu
-            ConfirmButton.Text = "Confirm"
-            ConfirmButton.Font = Enum.Font.GothamBold
-            ConfirmButton.TextSize = 20
-            ConfirmButton.TextColor3 = Color_Text
-            ConfirmButton.Size = UDim2.new(0, 150, 0, 40)
-            ConfirmButton.AnchorPoint = Vector2.new(1, 0)
-            ConfirmButton.Position = UDim2.new(1, -35, 0, 140)
-            ConfirmButton.BackgroundColor3 = Color_Accent
+            Description.Parent = KeyMenu
+            Description.Size = UDim2.new(1, -40, 0, 0)
+            Description.Text = KeyDescription
+            Description.TextSize = 13
+            Description.TextColor3 = Color_TextDim
+            Description.Font = Enum.Font.Gotham
+            Description.Position = UDim2.new(0, 20, 0, 45)
+            Description.TextXAlignment = Enum.TextXAlignment.Left
+            Description.AutomaticSize = Enum.AutomaticSize.Y
+            Description.TextYAlignment = Enum.TextYAlignment.Top
+            Description.BackgroundTransparency = 1
 
-            local ConfirmCorner = Instance.new("UICorner")
-            ConfirmCorner.CornerRadius = UDim.new(0, 8)
-            ConfirmCorner.Parent = ConfirmButton
-
-            local GetKeyLinkBtn = Instance.new("TextButton")
-            GetKeyLinkBtn.Parent = KeyMenu
-            GetKeyLinkBtn.Text = "Get Key Link"
-            GetKeyLinkBtn.Font = Enum.Font.GothamBold
-            GetKeyLinkBtn.TextSize = 20
-            GetKeyLinkBtn.TextColor3 = Color_Text
-            GetKeyLinkBtn.Size = UDim2.new(0, 150, 0, 40)
-            GetKeyLinkBtn.Position = UDim2.new(0, 35, 0, 140)
-            GetKeyLinkBtn.BackgroundColor3 = Color_Sec
-
-            local GetKeyCorner = Instance.new("UICorner")
-            GetKeyCorner.CornerRadius = UDim.new(0, 8)
-            GetKeyCorner.Parent = GetKeyLinkBtn
-
-            local TextBox = Instance.new("TextBox")
             TextBox.Parent = KeyMenu
-            TextBox.Size = UDim2.new(1, -70, 0, 40)
-            TextBox.Position = UDim2.new(0, 35, 0, 90)
+            TextBox.Size = UDim2.new(0, 336, 0, 50)
+            TextBox.Position = UDim2.new(0.5, 0, 0, 100)
+            TextBox.AnchorPoint = Vector2.new(0.5, 0)
             TextBox.BackgroundColor3 = Color_Sec
             TextBox.PlaceholderText = "Put the Key here"
             TextBox.Text = ""
             TextBox.TextColor3 = Color_Text
             TextBox.Font = Enum.Font.Gotham
-            TextBox.TextSize = 25
+            TextBox.TextSize = 14
+            TextBox.BorderSizePixel = 0
 
-            local TextBoxCorner = Instance.new("UICorner")
-            TextBoxCorner.CornerRadius = UDim.new(0, 8)
+            TextBoxCorner.CornerRadius = UDim.new(0, 6)
             TextBoxCorner.Parent = TextBox
 
-            local KeyVerify = false
+            GetKeyLink.Parent = KeyMenu
+            GetKeyLink.Text = "Get Key Link"
+            GetKeyLink.Font = Enum.Font.GothamBold
+            GetKeyLink.TextSize = 14
+            GetKeyLink.TextColor3 = Color_Text
+            GetKeyLink.Size = UDim2.new(0, 150, 0, 45)
+            GetKeyLink.Position = UDim2.new(0, 52, 0, 190)
+            GetKeyLink.BackgroundColor3 = Color_Sec
+            GetKeyLink.BorderSizePixel = 0
 
+            GetKeyCorner.CornerRadius = UDim.new(0, 6)
+            GetKeyCorner.Parent = GetKeyLink
+
+            ConfirmButton.Parent = KeyMenu
+            ConfirmButton.Text = "Confirm"
+            ConfirmButton.Font = Enum.Font.GothamBold
+            ConfirmButton.TextSize = 14
+            ConfirmButton.TextColor3 = Color_Text
+            ConfirmButton.Size = UDim2.new(0, 150, 0, 45)
+            ConfirmButton.Position = UDim2.new(0, 238, 0, 190)
+            ConfirmButton.BackgroundColor3 = Color_Sec
+            ConfirmButton.BorderSizePixel = 0
+
+            ConfirmCorner.CornerRadius = UDim.new(0, 6)
+            ConfirmCorner.Parent = ConfirmButton
+
+            local KeyVerify = false
+            
             CloseButton.MouseButton1Click:Connect(function()
                 ScreenGui:Destroy()
             end)
 
             ConfirmButton.MouseButton1Click:Connect(function()
-                for _, v in pairs(KeyKeys) do
+                for _, v in pairs(KeyKey) do
                     if TextBox.Text == v then
                         KeyVerify = true
                     end
                 end
-                if KeyNotifications and not KeyVerify then
-                    MakeNotifi({
-                        Title = KeyTitle,
-                        Text = KeyNotSuccess,
-                        Time = 5
-                    })
-                elseif KeyNotifications then
-                    MakeNotifi({
-                        Title = KeyTitle,
-                        Text = KeySuccess,
-                        Time = 5
-                    })
+                if not KeyVerify then
+                    if KeyNotifications then
+                        getgenv().MakeNotifi({
+                            Title = KeyTitle,
+                            Text = KeyNotSuccess,
+                            Time = 5
+                        })
+                    end
+                else
+                    if KeyNotifications then
+                        getgenv().MakeNotifi({
+                            Title = KeyTitle,
+                            Text = KeySuccess,
+                            Time = 5
+                        })
+                    end
+                    task.wait(1)
+                    KeyMenu:Destroy()
                 end
             end)
 
-            GetKeyLinkBtn.MouseButton1Click:Connect(function()
+            GetKeyLink.MouseButton1Click:Connect(function()
+                setclipboard(KeyLink)
                 if KeyNotifications then
-                    setclipboard(KeyLink)
-                    MakeNotifi({
+                    getgenv().MakeNotifi({
                         Title = KeyTitle,
                         Text = KeyCopyKeyLink,
                         Time = 5
@@ -308,9 +329,7 @@ local Library = (function()
                 end
             end)
 
-            repeat task.wait()
-            until KeyVerify
-            KeyMenu:Destroy()
+            repeat task.wait() until KeyVerify
         end
 
         local ToggleBtn = Instance.new("TextButton")
@@ -356,7 +375,6 @@ local Library = (function()
 
         ToggleBtn.MouseButton1Click:Connect(function()
             isOpen = not isOpen
-            
             if isOpen then
                 Main.Visible = true
                 TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Size = fullSize}):Play()
@@ -615,7 +633,7 @@ local Library = (function()
 
             local Elements = {}
 
-            function Elements:Button(text, callback)
+            function Elements:Button(text, imageId, callback)
                 local Button = Instance.new("TextButton")
                 local BtnCorner = Instance.new("UICorner")
                 local BtnStroke = Instance.new("UIStroke")
@@ -630,13 +648,30 @@ local Library = (function()
 
                 BtnText.Parent = Button
                 BtnText.BackgroundTransparency = 1
-                BtnText.Position = UDim2.new(0, 10, 0.5, -9)
-                BtnText.Size = UDim2.new(1, 0, 0, 18)
+                BtnText.Position = UDim2.new(0, (imageId and imageId ~= "" and 35 or 10), 0.5, -9)
+                BtnText.Size = UDim2.new(1, -50, 0, 18)
                 BtnText.Font = Enum.Font.Gotham
                 BtnText.Text = text
                 BtnText.TextColor3 = Color_Text
                 BtnText.TextSize = 13
                 BtnText.TextXAlignment = Enum.TextXAlignment.Left
+
+                if imageId and imageId ~= "" then
+                    local BtnImg = Instance.new("ImageLabel")
+                    BtnImg.Parent = Button
+                    BtnImg.BackgroundTransparency = 1
+                    BtnImg.Position = UDim2.new(0, 10, 0.5, -9)
+                    BtnImg.Size = UDim2.new(0, 18, 0, 18)
+                    BtnImg.Image = imageId
+                    BtnImg.ImageColor3 = Color_Text
+                    
+                    Button.MouseEnter:Connect(function()
+                        TweenService:Create(BtnImg, TweenInfo.new(0.2), {ImageColor3 = Color_Accent}):Play()
+                    end)
+                    Button.MouseLeave:Connect(function()
+                        TweenService:Create(BtnImg, TweenInfo.new(0.2), {ImageColor3 = Color_Text}):Play()
+                    end)
+                end
 
                 BtnIcon.Parent = Button
                 BtnIcon.BackgroundTransparency = 1
@@ -1187,125 +1222,238 @@ local Library = (function()
                 return Lab
             end
 
-            function Elements:ColorPicker(data)
-                local frame = Instance.new("Frame")
-                frame.Parent = Page
-                frame.Size = UDim2.new(1, 0, 0, 25)
-                frame.BackgroundColor3 = Color_Sec
-                frame.BorderSizePixel = 0
+            function Elements:ColorPicker(Configs)
+                local name = Configs.Title or "Color Picker"
+                local Default = Configs.Default or Color3.fromRGB(255, 0, 0)
+                local Callback = Configs.Callback or function() end
                 
-                local frameCorner = Instance.new("UICorner")
-                frameCorner.CornerRadius = UDim.new(0, 6)
-                frameCorner.Parent = frame
+                local ColorH, ColorS, ColorV = Color3.toHSV(Default)
+                pcall(Callback, Default)
+
+                local TextButton = Instance.new("Frame")
+                local TextButtonCorner = Instance.new("UICorner")
+                local TextButtonStroke = Instance.new("UIStroke")
                 
-                local frameStroke = Instance.new("UIStroke")
-                frameStroke.Color = Color3.fromRGB(50, 50, 50)
-                frameStroke.Thickness = 1
-                frameStroke.Parent = frame
+                TextButton.Parent = Page
+                TextButton.Size = UDim2.new(1, 0, 0, 25)
+                TextButton.BackgroundColor3 = Color_Sec
+                TextButton.ClipsDescendants = true
+
+                TextButtonCorner.CornerRadius = UDim.new(0, 6)
+                TextButtonCorner.Parent = TextButton
+
+                TextButtonStroke.Color = Color3.fromRGB(45, 45, 45)
+                TextButtonStroke.Thickness = 1
+                TextButtonStroke.Parent = TextButton
+
+                local click = Instance.new("TextButton")
+                click.Parent = TextButton
+                click.Size = UDim2.new(1, 0, 0, 25)
+                click.BackgroundTransparency = 1
+                click.AutoButtonColor = false
+                click.Text = ""
+
+                local TextLabel = Instance.new("TextLabel")
+                TextLabel.Parent = TextButton
+                TextLabel.Size = UDim2.new(1, -10, 0, 25)
+                TextLabel.Position = UDim2.new(0, 35, 0, 0)
+                TextLabel.TextSize = 12
+                TextLabel.TextColor3 = Color_Text
+                TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+                TextLabel.Text = name
+                TextLabel.Font = Enum.Font.Gotham
+                TextLabel.BackgroundTransparency = 1
+
+                local picker = Instance.new("Frame")
+                local pickerCorner = Instance.new("UICorner")
+                local pickerStroke = Instance.new("UIStroke")
                 
-                local clickBtn = Instance.new("TextButton")
-                clickBtn.Parent = frame
-                clickBtn.Size = UDim2.new(1, 0, 0, 25)
-                clickBtn.BackgroundTransparency = 1
-                clickBtn.Text = ""
-                clickBtn.AutoButtonColor = false
+                picker.Parent = TextButton
+                picker.Size = UDim2.new(0, 20, 0, 20)
+                picker.Position = UDim2.new(0, 5, 0, 2.5)
+                picker.BackgroundColor3 = Default
+
+                pickerCorner.CornerRadius = UDim.new(0, 4)
+                pickerCorner.Parent = picker
+
+                pickerStroke.Color = Color3.fromRGB(60, 60, 60)
+                pickerStroke.Thickness = 1
+                pickerStroke.Parent = picker
+
+                local UI_Grade = Instance.new("ImageButton")
+                local UI_GradeCorner = Instance.new("UICorner")
+                local UI_GradeStroke = Instance.new("UIStroke")
                 
-                local titleLabel = Instance.new("TextLabel")
-                titleLabel.Parent = clickBtn
-                titleLabel.Size = UDim2.new(1, -10, 0, 25)
-                titleLabel.Position = UDim2.new(0, 35, 0, 0)
-                titleLabel.BackgroundTransparency = 1
-                titleLabel.Font = Enum.Font.Gotham
-                titleLabel.Text = data.Title or "Color Picker"
-                titleLabel.TextColor3 = Color_Text
-                titleLabel.TextSize = 13
-                titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+                UI_Grade.Parent = TextButton
+                UI_Grade.Size = UDim2.new(1, -100, 0, 95)
+                UI_Grade.Position = UDim2.new(0, 10, 0, 37)
+                UI_Grade.Visible = false
+                UI_Grade.Image = "rbxassetid://4155801252"
+
+                UI_GradeCorner.CornerRadius = UDim.new(0, 4)
+                UI_GradeCorner.Parent = UI_Grade
+
+                UI_GradeStroke.Color = Color3.fromRGB(50, 50, 50)
+                UI_GradeStroke.Parent = UI_Grade
+
+                local SavePos = Instance.new("Frame")
+                SavePos.Parent = UI_Grade
+                SavePos.Visible = false
+
+                local grade = Instance.new("TextButton")
+                local gradeCorner = Instance.new("UICorner")
+                local gradeStroke = Instance.new("UIStroke")
+                local gradGradient = Instance.new("UIGradient")
                 
-                local colorPreview = Instance.new("Frame")
-                colorPreview.Parent = clickBtn
-                colorPreview.Size = UDim2.new(0, 20, 0, 20)
-                colorPreview.Position = UDim2.new(0, 5, 0, 2.5)
-                colorPreview.BackgroundColor3 = data.Default or Color_Accent
-                colorPreview.BorderSizePixel = 0
+                grade.Parent = TextButton
+                grade.Size = UDim2.new(0, 30, 0, 95)
+                grade.Position = UDim2.new(1, -10, 0, 37)
+                grade.AnchorPoint = Vector2.new(1, 0)
+                grade.Visible = false
+                grade.Text = ""
+
+                gradeCorner.CornerRadius = UDim.new(0, 4)
+                gradeCorner.Parent = grade
+
+                gradeStroke.Color = Color3.fromRGB(50, 50, 50)
+                gradeStroke.Parent = grade
+
+                gradGradient.Rotation = 90
+                gradGradient.Color = ColorSequence.new({
+                    ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 0, 4)),
+                    ColorSequenceKeypoint.new(0.20, Color3.fromRGB(234, 255, 0)),
+                    ColorSequenceKeypoint.new(0.40, Color3.fromRGB(21, 255, 0)),
+                    ColorSequenceKeypoint.new(0.60, Color3.fromRGB(0, 255, 255)),
+                    ColorSequenceKeypoint.new(0.80, Color3.fromRGB(0, 17, 255)),
+                    ColorSequenceKeypoint.new(0.90, Color3.fromRGB(255, 0, 251)),
+                    ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 0, 4))
+                })
+                gradGradient.Parent = grade
+
+                local SavePos2 = Instance.new("Frame")
+                SavePos2.Parent = grade
+                SavePos2.Visible = false
+                SavePos2.Size = UDim2.new(1, 0, 0, 0)
+
+                local A_1 = Instance.new("Frame")
+                local A_1Stroke = Instance.new("UIStroke")
                 
-                local previewCorner = Instance.new("UICorner")
-                previewCorner.CornerRadius = UDim.new(0, 4)
-                previewCorner.Parent = colorPreview
+                A_1.Parent = TextButton
+                A_1.Size = UDim2.new(1, 0, 0, 1)
+                A_1.Position = UDim2.new(0, 0, 0, 30)
+                A_1.Visible = false
+                A_1Stroke.Color = Color3.fromRGB(45, 45, 45)
+                A_1Stroke.Parent = A_1
+
+                local Select1 = Instance.new("Frame")
+                local Select1Corner = Instance.new("UICorner")
+                local Select1Stroke = Instance.new("UIStroke")
                 
-                local previewStroke = Instance.new("UIStroke")
-                previewStroke.Color = Color3.fromRGB(50, 50, 50)
-                previewStroke.Thickness = 1
-                previewStroke.Parent = colorPreview
+                Select1.Parent = grade
+                Select1.Size = UDim2.new(1, 0, 0, 6)
+                Select1.Position = UDim2.new(0, 0, 0, ColorH * 95)
+                Select1.BackgroundTransparency = 1
+                Select1.Active = true
+                Select1.Draggable = true
+
+                Select1Corner.CornerRadius = UDim.new(1, 0)
+                Select1Corner.Parent = Select1
+                Select1Stroke.Color = Color3.fromRGB(255, 255, 255)
+                Select1Stroke.Thickness = 1.5
+                Select1Stroke.Parent = Select1
+
+                local Select2 = Instance.new("Frame")
+                local Select2Corner = Instance.new("UICorner")
+                local Select2Stroke = Instance.new("UIStroke")
                 
-                local expandFrame = Instance.new("Frame")
-                expandFrame.Parent = clickBtn
-                expandFrame.Size = UDim2.new(1, 0, 0, 0)
-                expandFrame.Position = UDim2.new(0, 0, 0, 25)
-                expandFrame.BackgroundTransparency = 1
-                expandFrame.Visible = false
-                
-                local colorGrid = Instance.new("Frame")
-                colorGrid.Parent = expandFrame
-                colorGrid.Size = UDim2.new(1, -20, 0, 100)
-                colorGrid.Position = UDim2.new(0, 10, 0, 10)
-                colorGrid.BackgroundTransparency = 1
-                
-                local gridLayout = Instance.new("UIGridLayout")
-                gridLayout.Parent = colorGrid
-                gridLayout.CellSize = UDim2.new(0, 35, 0, 35)
-                gridLayout.CellPadding = UDim2.new(0, 5, 0, 5)
-                
-                local colors = {
-                    Color3.fromRGB(255, 0, 0), Color3.fromRGB(255, 128, 0),
-                    Color3.fromRGB(255, 255, 0), Color3.fromRGB(0, 255, 0),
-                    Color3.fromRGB(0, 255, 255), Color3.fromRGB(0, 128, 255),
-                    Color3.fromRGB(128, 0, 255), Color3.fromRGB(255, 0, 255),
-                    Color3.fromRGB(255, 128, 128), Color3.fromRGB(255, 200, 128),
-                    Color3.fromRGB(128, 255, 128), Color3.fromRGB(128, 200, 255),
-                    Color3.fromRGB(200, 128, 255), Color3.fromRGB(255, 128, 200),
-                    Color3.fromRGB(255, 255, 255), Color3.fromRGB(128, 128, 128),
-                    Color3.fromRGB(255, 200, 200), Color3.fromRGB(200, 255, 200),
-                    Color3.fromRGB(200, 200, 255), Color3.fromRGB(255, 200, 255),
-                    Color3.fromRGB(200, 255, 255), Color3.fromRGB(255, 255, 200),
-                    Color3.fromRGB(50, 50, 50), Color3.fromRGB(0, 0, 0)
-                }
-                
-                for _, color in pairs(colors) do
-                    local btn = Instance.new("TextButton")
-                    btn.Parent = colorGrid
-                    btn.Size = UDim2.new(0, 35, 0, 35)
-                    btn.BackgroundColor3 = color
-                    btn.BorderSizePixel = 0
-                    btn.Text = ""
-                    
-                    local btnCorner = Instance.new("UICorner")
-                    btnCorner.CornerRadius = UDim.new(0, 4)
-                    btnCorner.Parent = btn
-                    
-                    btn.MouseButton1Click:Connect(function()
-                        colorPreview.BackgroundColor3 = color
-                        if data.Callback then
-                            data.Callback(color)
-                        end
-                    end)
+                Select2.Parent = UI_Grade
+                Select2.Size = UDim2.new(0, 10, 0, 10)
+                Select2.Position = UDim2.new(0, ColorS * 222, 0, (1 - ColorV) * 95)
+                Select2.BackgroundTransparency = 1
+                Select2.Active = true
+                Select2.Draggable = true
+
+                Select2Corner.CornerRadius = UDim.new(1, 0)
+                Select2Corner.Parent = Select2
+                Select2Stroke.Color = Color3.fromRGB(255, 255, 255)
+                Select2Stroke.Thickness = 1.5
+                Select2Stroke.Parent = Select2
+
+                local function callback()
+                    pcall(Callback, Color3.fromHSV(ColorH, ColorS, ColorV))
                 end
-                
-                local pickerOpen = false
-                
-                clickBtn.MouseButton1Click:Connect(function()
-                    pickerOpen = not pickerOpen
-                    if pickerOpen then
-                        expandFrame.Visible = true
-                        frame.Size = UDim2.new(1, 0, 0, 140)
-                        expandFrame.Size = UDim2.new(1, 0, 0, 115)
+
+                local function updcolorpicker()
+                    ColorH = math.clamp(Select1.Position.Y.Offset / 95, 0, 1)
+                    ColorS = math.clamp(Select2.Position.X.Offset / UI_Grade.AbsoluteSize.X, 0, 1)
+                    ColorV = math.clamp(1 - (Select2.Position.Y.Offset / 95), 0, 1)
+                    
+                    UI_Grade.ImageColor3 = Color3.fromHSV(ColorH, 1, 1)
+                    picker.BackgroundColor3 = Color3.fromHSV(ColorH, ColorS, ColorV)
+                    callback()
+                end
+
+                UI_Grade.MouseButton1Click:Connect(function()
+                    local mouse = UserInputService:GetMouseLocation()
+                    local savepos = UI_Grade.AbsolutePosition
+                    local newX = math.clamp(mouse.X - savepos.X, 0, UI_Grade.AbsoluteSize.X)
+                    local newY = math.clamp(mouse.Y - savepos.Y - 36, 0, 95)
+                    TweenService:Create(Select2, TweenInfo.new(0.2), {Position = UDim2.new(0, newX, 0, newY)}):Play()
+                    task.wait(0.05)
+                    updcolorpicker()
+                end)
+
+                grade.MouseButton1Click:Connect(function()
+                    local mouse = UserInputService:GetMouseLocation().Y - 36
+                    local savepos = grade.AbsolutePosition.Y
+                    local newY = math.clamp(mouse - savepos, 0, 95)
+                    TweenService:Create(Select1, TweenInfo.new(0.2), {Position = UDim2.new(0, 0, 0, newY)}):Play()
+                    task.wait(0.05)
+                    updcolorpicker()
+                end)
+
+                Select1.Changed:Connect(function(prop)
+                    if prop == "Position" then
+                        Select1.Position = UDim2.new(0, 0, 0, math.clamp(Select1.Position.Y.Offset, 0, 95))
+                        updcolorpicker()
+                    end
+                end)
+
+                Select2.Changed:Connect(function(prop)
+                    if prop == "Position" then
+                        Select2.Position = UDim2.new(0, math.clamp(Select2.Position.X.Offset, 0, 222), 0, math.clamp(Select2.Position.Y.Offset, 0, 95))
+                        updcolorpicker()
+                    end
+                end)
+
+                TextButton.Changed:Connect(function(prop)
+                    if prop == "Size" then
+                        if TextButton.Size.Y.Offset >= 60 then
+                            picker.Position = UDim2.new(0, 5, 0, 5)
+                            UI_Grade.Visible = true
+                            A_1.Visible = true
+                            grade.Visible = true
+                        else
+                            picker.Position = UDim2.new(0, 5, 0, 2.5)
+                            UI_Grade.Visible = false
+                            A_1.Visible = false
+                            grade.Visible = false
+                        end
+                    end
+                end)
+
+                local onoff = false
+                click.MouseButton1Click:Connect(function()
+                    onoff = not onoff
+                    if onoff == true then
+                        TweenService:Create(TextButton, TweenInfo.new(0.2, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 145)}):Play()
                     else
-                        expandFrame.Visible = false
-                        frame.Size = UDim2.new(1, 0, 0, 25)
-                        expandFrame.Size = UDim2.new(1, 0, 0, 0)
+                        TweenService:Create(TextButton, TweenInfo.new(0.2, Enum.EasingStyle.Linear), {Size = UDim2.new(1, 0, 0, 25)}):Play()
                     end
                 end)
                 
-                return colorPreview
+                updcolorpicker()
+                return picker
             end
 
             return Elements

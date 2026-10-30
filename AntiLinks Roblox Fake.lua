@@ -1,5 +1,3 @@
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
 
 local function Notify(Title, Text, Duration)
     local ScreenGui = Instance.new("ScreenGui")
